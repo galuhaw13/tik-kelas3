@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Guru - Kelola Informatika SD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: { extend: { fontFamily: { sans: ['Lexend', 'sans-serif'] } } }
+        }
+    </script>
+    <style>
+        body { font-family: 'Lexend', sans-serif; background-color: #0F172A; color: #F8FAFC; }
+        .btn-solid { transition: all 0.12s ease; box-shadow: 4px 4px 0px #000; border: 3px solid #000; font-weight: 800; }
+        .btn-solid:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px #000; }
+        .card-solid { border: 3px solid #000; box-shadow: 5px 5px 0px #000; border-radius: 1rem; }
+    </style>
+</head>
+<body class="min-h-screen pb-16">
+
+    <nav class="bg-indigo-700 border-b-4 border-black px-4 py-3 sticky top-0 z-40 text-white">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 bg-amber-400 text-black rounded-xl border-3 border-black flex items-center justify-center text-2xl font-black shadow-solid-sm">
+                    <i class="fa-solid fa-user-tie"></i>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-2xl leading-none">PANEL GURU INFORMATIKA</h1>
+                    <span class="text-xs font-black bg-white text-black px-2 py-0.5 rounded border border-black inline-block mt-1">Pengelola Materi, Soal & Rekap Nilai</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 mt-6 space-y-6">
+
+        <!-- 1. UPLOAD MATERI PDF / PPTX -->
+        <div class="card-solid bg-white text-slate-900 p-6 space-y-4">
+            <h3 class="text-xl font-black text-black border-b-3 border-black pb-2 flex items-center gap-2">
+                <i class="fa-solid fa-cloud-arrow-up text-purple-700"></i> Upload File Materi Baru (PDF / PPTX) untuk Siswa
+            </h3>
+            <form onsubmit="handleUploadMateri(event)" class="space-y-3 font-bold text-xs">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block mb-1 text-slate-800">Pilih Bab Materi:</label>
+                        <select id="uploadBab" class="w-full border-2 border-black p-2.5 rounded-xl bg-purple-50 font-bold text-sm">
+                            <option value="Bab 1">Bab 1: Peran Komputer & Lab</option>
+                            <option value="Bab 2">Bab 2: Hardware & Siklus IPO</option>
+                            <option value="Bab 3">Bab 3: Sistem Operasi & Navigasi OS</option>
+                            <option value="Bab 4">Bab 4: Pengelolaan Berkas Digital</option>
+                            <option value="Bab 5">Bab 5: Algoritma Unplugged</option>
+                            <option value="Bab 6">Bab 6: Microsoft Paint (Menggambar)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block mb-1 text-slate-800">Judul Berkas / Modul Ajar:</label>
+                        <input type="text" id="uploadTitle" required placeholder="Contoh: Modul_Paint_Bab6.pdf" class="w-full border-2 border-black p-2.5 rounded-xl text-sm">
+                    </div>
+                </div>
+                <div>
+                    <label class="block mb-1 text-slate-800">Pilih File dari Komputer (PDF / PPTX):</label>
+                    <input type="file" id="uploadFileInput" accept=".pdf,.pptx,.ppt" required class="w-full border-2 border-black p-2 rounded-xl bg-gray-50 text-xs">
+                </div>
+                <button type="submit" class="btn-solid bg-emerald-500 text-white w-full py-3 rounded-xl font-black text-sm">
+                    <i class="fa-solid fa-upload"></i> Unggah Ke Web Siswa
+                </button>
+            </form>
+        </div>
+
+        <!-- 2. TAMBAH / BUAT SOAL KUIS -->
+        <div class="card-solid bg-white text-slate-900 p-6 space-y-4">
+            <h3 class="text-xl font-black text-black border-b-3 border-black pb-2 flex items-center gap-2">
+                <i class="fa-solid fa-plus-circle text-amber-500"></i> Buat & Tambah Soal Kuis Baru
+            </h3>
+            <form onsubmit="saveCustomQuestion(event)" class="space-y-3 font-bold text-sm">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block mb-1 text-slate-700">Pilih Bab:</label>
+                        <select id="formBab" class="w-full border-2 border-black p-2.5 rounded-xl bg-purple-50">
+                            <option value="Bab 1">Bab 1</option><option value="Bab 2">Bab 2</option><option value="Bab 3">Bab 3</option>
+                            <option value="Bab 4">Bab 4</option><option value="Bab 5">Bab 5</option><option value="Bab 6">Bab 6: Microsoft Paint</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block mb-1 text-slate-700">Pertanyaan Soal:</label>
+                        <input type="text" id="formQuestion" required placeholder="Tulis pertanyaan..." class="w-full border-2 border-black p-2.5 rounded-xl">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+                    <input type="text" id="formOptA" required placeholder="Opsi A" class="border-2 border-black p-2 rounded">
+                    <input type="text" id="formOptB" required placeholder="Opsi B" class="border-2 border-black p-2 rounded">
+                    <input type="text" id="formOptC" required placeholder="Opsi C" class="border-2 border-black p-2 rounded">
+                    <input type="text" id="formOptD" required placeholder="Opsi D" class="border-2 border-black p-2 rounded">
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                    <select id="formCorrect" class="border-2 border-black p-2.5 rounded-xl bg-amber-100 font-bold">
+                        <option value="0">Kunci Benar: Opsi A</option>
+                        <option value="1">Kunci Benar: Opsi B</option>
+                        <option value="2">Kunci Benar: Opsi C</option>
+                        <option value="3">Kunci Benar: Opsi D</option>
+                    </select>
+                    <input type="text" id="formPembahasan" required placeholder="Penjelasan pembahasan soal..." class="border-2 border-black p-2.5 rounded-xl">
+                </div>
+                <button type="submit" class="btn-solid bg-amber-500 text-black w-full py-3 rounded-xl font-black text-sm">Simpan Soal Ke Kuis Siswa</button>
+            </form>
+        </div>
+
+        <!-- 3. REKAPITULASI NILAI SISWA -->
+        <div class="card-solid bg-white text-slate-900 p-6 space-y-4">
+            <div class="flex justify-between items-center border-b-3 border-black pb-3">
+                <h3 class="text-xl font-black flex items-center gap-2"><i class="fa-solid fa-table text-emerald-600"></i> Rekapitulasi Nilai & Jawaban Siswa</h3>
+                <button onclick="exportCSV()" class="btn-solid bg-emerald-500 text-white px-4 py-2 rounded-xl text-xs font-black"><i class="fa-solid fa-file-excel"></i> Download CSV</button>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-purple-100 border-3 border-black font-black text-xs uppercase">
+                            <th class="p-3 border-r-2 border-black">Waktu</th>
+                            <th class="p-3 border-r-2 border-black">Siswa</th>
+                            <th class="p-3 border-r-2 border-black">Paket</th>
+                            <th class="p-3 border-r-2 border-black text-center">Poin</th>
+                            <th class="p-3">Rekap Jawaban Per Nomor</th>
+                        </tr>
+                    </thead>
+                    <tbody id="guruPreviewTableBody" class="font-bold text-xs divide-y-2 divide-black"></tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        window.onload = function() { renderGuruTable(); };
+
+        function handleUploadMateri(e) {
+            e.preventDefault();
+            let bab = document.getElementById('uploadBab').value;
+            let title = document.getElementById('uploadTitle').value.trim();
+            let fileInput = document.getElementById('uploadFileInput');
+            if(!fileInput.files[0]) return alert('Pilih file!');
+
+            let reader = new FileReader();
+            reader.onload = function(evt) {
+                let materiData = JSON.parse(localStorage.getItem('info_materi_data_split')) || [
+                    { id: 'm1', bab: 'Bab 1', title: 'Peran Komputer & Lab', summary: 'Tata tertib lab', files:[] },
+                    { id: 'm2', bab: 'Bab 2', title: 'Hardware & Siklus IPO', summary: 'IPO', files:[] },
+                    { id: 'm3', bab: 'Bab 3', title: 'Sistem Operasi & Mouse', summary: 'OS', files:[] },
+                    { id: 'm4', bab: 'Bab 4', title: 'Pengelolaan Berkas Digital', summary: 'Folder', files:[] },
+                    { id: 'm5', bab: 'Bab 5', title: 'Algoritma Unplugged', summary: 'Algoritma', files:[] },
+                    { id: 'm6', bab: 'Bab 6', title: 'Microsoft Paint (Menggambar)', summary: 'Paint', files:[] }
+                ];
+                let target = materiData.find(m => m.bab === bab);
+                if(target) {
+                    if(!target.files) target.files = [];
+                    target.files.push({ name: title || fileInput.files[0].name, dataUrl: evt.target.result });
+                    localStorage.setItem('info_materi_data_split', JSON.stringify(materiData));
+                    alert('File berhasil diunggah! Siswa dapat mengunduhnya di Portal Siswa.');
+                }
+            };
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+
+        function saveCustomQuestion(e) {
+            e.preventDefault();
+            let newQ = {
+                id: Date.now(),
+                bab: document.getElementById('formBab').value,
+                question: document.getElementById('formQuestion').value.trim(),
+                options: [
+                    document.getElementById('formOptA').value.trim(),
+                    document.getElementById('formOptB').value.trim(),
+                    document.getElementById('formOptC').value.trim(),
+                    document.getElementById('formOptD').value.trim()
+                ],
+                correct: parseInt(document.getElementById('formCorrect').value),
+                pembahasan: document.getElementById('formPembahasan').value.trim()
+            };
+            let customQ = JSON.parse(localStorage.getItem('info_custom_questions') || '[]');
+            customQ.push(newQ);
+            localStorage.setItem('info_custom_questions', JSON.stringify(customQ));
+            alert('Soal baru berhasil ditambahkan ke Kuis Siswa!');
+            document.getElementById('inputForm') && document.getElementById('inputForm').reset();
+        }
+
+        function renderGuruTable() {
+            let records = JSON.parse(localStorage.getItem('info_leaderboard') || '[]');
+            let tbody = document.getElementById('guruPreviewTableBody');
+            if(records.length === 0) { tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center font-bold">Belum ada hasil kuis siswa.</td></tr>'; return; }
+            tbody.innerHTML = records.map(r => `
+                <tr class="hover:bg-purple-50">
+                    <td class="p-3 border-r-2 border-black text-slate-500">${r.waktu}</td>
+                    <td class="p-3 border-r-2 border-black font-black">${r.avatar} ${r.nama}</td>
+                    <td class="p-3 border-r-2 border-black font-extrabold">${r.paket}</td>
+                    <td class="p-3 border-r-2 border-black text-center font-black text-purple-900">${r.skor} Poin</td>
+                    <td class="p-3 text-slate-700 text-[11px] font-mono">${r.rincian}</td>
+                </tr>
+            `).join('');
+        }
+
+        function exportCSV() {
+            let records = JSON.parse(localStorage.getItem('info_leaderboard') || '[]');
+            if(records.length === 0) return alert('Belum ada data.');
+            let csv = "Waktu,Nama,Paket,Skor,Rekap\n";
+            records.forEach(r => { csv += `"${r.waktu}","${r.nama}","${r.paket}",${r.skor},"${r.rincian}"\n`; });
+            let blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            let link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = `Rekap_Nilai_Kelas3.csv`;
+            link.click();
+        }
+    </script>
+</body>
+</html>

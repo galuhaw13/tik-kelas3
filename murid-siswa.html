@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Siswa - Informatika Kelas 3 SD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.com/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bgUngu: '#7C3AED', bgKuning: '#FACC15', bgOranye: '#FB923C',
+                        bgHijau: '#10B981', benarHijau: '#16A34A', salahMerah: '#DC2626'
+                    },
+                    fontFamily: { sans: ['Lexend', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Lexend', sans-serif; background-color: #7C3AED; color: #0F172A; }
+        .btn-solid { transition: all 0.12s ease; box-shadow: 4px 4px 0px #000; border: 3px solid #000; font-weight: 800; }
+        .btn-solid:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px #000; }
+        .card-solid { border: 3px solid #000; box-shadow: 5px 5px 0px #000; border-radius: 1rem; }
+        .avatar-card { cursor: pointer; border: 3px solid transparent; transition: all 0.2s; }
+        .avatar-card.selected { border-color: #000; background-color: #FACC15; transform: scale(1.08); box-shadow: 3px 3px 0px #000; }
+    </style>
+</head>
+<body class="min-h-screen pb-16">
+
+    <!-- NAVBAR SISWA -->
+    <nav class="bg-bgKuning border-b-4 border-black px-4 py-3 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('materi')">
+                <div class="w-12 h-12 bg-bgOranye text-white rounded-xl border-3 border-black flex items-center justify-center text-2xl font-black shadow-solid-sm">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-xl text-black leading-none">INFORMATIKA CERIA</h1>
+                    <span class="text-xs font-black bg-white px-2 py-0.5 rounded border border-black inline-block mt-1">Portal Siswa Kelas 3 SD</span>
+                </div>
+            </div>
+
+            <!-- PROFIL SISWA -->
+            <div class="flex items-center space-x-3">
+                <div id="userProfileDisplay" class="hidden items-center bg-white border-3 border-black rounded-xl px-3 py-1 shadow-solid-sm">
+                    <span id="navAvatar" class="text-2xl mr-2">🤖</span>
+                    <div>
+                        <div id="navName" class="font-black text-sm text-black leading-tight">Siswa</div>
+                        <div class="text-xs font-extrabold text-amber-600"><i class="fa-solid fa-star"></i> <span id="starVal">0</span> Poin</div>
+                    </div>
+                    <button onclick="openAvatarModal()" class="ml-3 text-xs bg-gray-100 p-1.5 rounded-lg border-2 border-black"><i class="fa-solid fa-pen"></i></button>
+                </div>
+                <button id="loginProfileBtn" onclick="openAvatarModal()" class="btn-solid bg-bgOranye text-white px-4 py-2 rounded-xl text-sm font-extrabold">
+                    <i class="fa-solid fa-user-plus"></i> Isi Nama & Avatar
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- KONTEN UTAMA -->
+    <main class="max-w-7xl mx-auto px-4 mt-6">
+        <div class="flex flex-wrap gap-2 mb-6">
+            <button id="tab-materi" onclick="switchTab('materi')" class="btn-solid bg-bgKuning text-black px-5 py-2.5 rounded-xl text-sm font-black"><i class="fa-solid fa-book"></i> 1. Materi (Bab 1-6)</button>
+            <button id="tab-kuis" onclick="switchTab('kuis')" class="btn-solid bg-white text-black px-5 py-2.5 rounded-xl text-sm font-black"><i class="fa-solid fa-gamepad text-purple-700"></i> 2. Kuis & Soal</button>
+            <button id="tab-kisikisi" onclick="switchTab('kisikisi')" class="btn-solid bg-white text-black px-5 py-2.5 rounded-xl text-sm font-black"><i class="fa-solid fa-list-check text-blue-700"></i> 3. Kisi-Kisi</button>
+            <button id="tab-leaderboard" onclick="switchTab('leaderboard')" class="btn-solid bg-white text-black px-5 py-2.5 rounded-xl text-sm font-black"><i class="fa-solid fa-trophy text-amber-500"></i> 4. Leaderboard</button>
+        </div>
+
+        <!-- SECTION 1: MATERI 6 BAB -->
+        <section id="section-materi" class="space-y-6">
+            <div class="bg-bgKuning border-4 border-black p-6 rounded-2xl shadow-solid-lg text-black">
+                <h2 class="text-2xl font-black mb-1">📚 Materi Pelajaran Informatika Kelas 3 SD</h2>
+                <p class="font-bold text-slate-800 text-sm">Klik kartu materi di bawah ini untuk membaca rangkuman lengkap (Bab 1 s.d. Bab 6) melalui dialog box interaktif[cite: 1]!</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="materiGrid"></div>
+        </section>
+
+        <!-- SECTION 2: KUIS -->
+        <section id="section-kuis" class="hidden space-y-6">
+            <div id="kuisUserPrompt" class="bg-bgOranye text-white border-4 border-black p-6 rounded-2xl shadow-solid-lg flex justify-between items-center">
+                <div>
+                    <h3 class="text-xl font-black mb-1">⚠️ Masukkan Namamu Terlebih Dahulu!</h3>
+                    <p class="font-bold text-amber-100 text-sm">Skor dan jawaban akan terekam ke panel guru.</p>
+                </div>
+                <button onclick="openAvatarModal()" class="btn-solid bg-bgKuning text-black px-5 py-2.5 rounded-xl font-black">Isi Identitas</button>
+            </div>
+
+            <div id="quizHub" class="bg-white border-4 border-black p-6 rounded-2xl shadow-solid-lg space-y-4">
+                <h3 class="text-2xl font-black">🎮 Pilih Paket Kuis Latihan</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="quizPackageList"></div>
+            </div>
+
+            <!-- Quiz Arena -->
+            <div id="quizArena" class="bg-white border-4 border-black rounded-2xl p-6 md:p-8 shadow-solid-lg space-y-6 hidden">
+                <div class="flex justify-between items-center border-b-4 border-black pb-4">
+                    <div>
+                        <span id="quizBabBadge" class="bg-purple-200 text-purple-950 font-extrabold text-xs px-3 py-1 rounded border-2 border-black">Bab 1</span>
+                        <h2 id="quizTitle" class="text-2xl font-black mt-1">Soal Kuis</h2>
+                    </div>
+                    <div id="quizTimer" class="w-14 h-14 rounded-2xl bg-bgKuning border-3 border-black flex items-center justify-center font-black text-lg">30s</div>
+                </div>
+                <div class="bg-purple-50 border-3 border-black p-6 rounded-xl">
+                    <h3 id="questionText" class="text-lg md:text-xl font-black text-slate-900">Loading...</h3>
+                </div>
+                <div id="optionsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                <div id="feedbackBox" class="hidden p-4 border-3 border-black rounded-xl space-y-2">
+                    <span id="feedbackTitle" class="font-black text-base uppercase"></span>
+                    <p id="feedbackText" class="font-bold text-sm"></p>
+                </div>
+                <div class="flex justify-between pt-4 border-t-3 border-black">
+                    <button onclick="quitQuiz()" class="btn-solid bg-gray-200 px-4 py-2 rounded-xl text-sm">Keluar</button>
+                    <button id="nextQuestionBtn" onclick="nextQuestion()" disabled class="btn-solid bg-bgHijau text-white px-8 py-3 rounded-xl opacity-50">Soal Berikutnya <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <!-- Quiz Result -->
+            <div id="quizResultView" class="hidden space-y-6">
+                <div class="bg-bgKuning border-4 border-black p-6 rounded-2xl text-center space-y-3">
+                    <div id="resultAvatar" class="text-6xl animate-bounce">🏆</div>
+                    <h2 class="text-3xl font-black">Kuis Selesai!</h2>
+                    <div class="inline-flex items-center gap-6 bg-white border-3 border-black p-4 rounded-xl">
+                        <div><div class="text-xs uppercase font-black">Total Poin</div><div id="finalScore" class="text-3xl font-black text-bgOranye">100</div></div>
+                        <div class="h-10 w-1 bg-black"></div>
+                        <div><div class="text-xs uppercase font-black">Benar</div><div id="finalCorrectCount" class="text-3xl font-black text-benarHijau">5/5</div></div>
+                    </div>
+                </div>
+                <div class="bg-white border-4 border-black p-6 rounded-2xl space-y-4">
+                    <h3 class="text-xl font-black">📊 Rincian Jawaban Per Nomor (Hijau/Merah)</h3>
+                    <div id="numberDetailCards" class="grid gap-4"></div>
+                    <button onclick="switchTab('kuis')" class="btn-solid bg-bgOranye text-white w-full py-3 rounded-xl">Coba Kuis Lain</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: KISI-KISI -->
+        <section id="section-kisikisi" class="hidden space-y-6">
+            <div class="bg-white border-4 border-black p-6 rounded-2xl shadow-solid-lg space-y-4">
+                <h2 class="text-2xl font-black">📋 Kisi-Kisi Ujian Informatika Kelas 3 SD</h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-bgKuning border-3 border-black font-black text-sm">
+                                <th class="p-3 border-r-2 border-black">Bab</th>
+                                <th class="p-3 border-r-2 border-black">Materi</th>
+                                <th class="p-3 border-r-2 border-black">Indikator Soal</th>
+                                <th class="p-3 border-r-2 border-black text-center">Level</th>
+                                <th class="p-3 text-center">Bentuk</th>
+                            </tr>
+                        </thead>
+                        <tbody id="kisiKisiTableBody" class="font-bold text-sm divide-y-2 divide-black"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: LEADERBOARD -->
+        <section id="section-leaderboard" class="hidden space-y-6">
+            <div class="bg-white border-4 border-black p-6 rounded-2xl shadow-solid-lg space-y-6">
+                <h2 class="text-2xl font-black">🏆 Papan Peringkat Siswa</h2>
+                <div id="podiumContainer" class="grid grid-cols-3 gap-3 max-w-lg mx-auto items-end"></div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-bgKuning border-3 border-black font-black text-sm">
+                                <th class="p-3 border-r-2 border-black text-center">Rank</th>
+                                <th class="p-3 border-r-2 border-black">Nama Siswa</th>
+                                <th class="p-3 border-r-2 border-black">Topik</th>
+                                <th class="p-3 border-r-2 border-black text-center">Poin</th>
+                                <th class="p-3">Waktu</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboardTableBody" class="font-bold text-sm divide-y-2 divide-black"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- MODAL PROFIL -->
+    <div id="avatarModal" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white border-4 border-black p-6 rounded-2xl max-w-md w-full space-y-4">
+            <h3 class="text-xl font-black">👤 Identitas Siswa</h3>
+            <input type="text" id="inputStudentName" placeholder="Nama Lengkap & Kelas" class="w-full border-3 border-black p-3 rounded-xl font-bold bg-purple-50">
+            <div class="grid grid-cols-4 gap-3 text-3xl">
+                <div onclick="selectAvatar('🤖')" class="avatar-card p-3 bg-purple-100 rounded-xl text-center border-2 border-black">🤖</div>
+                <div onclick="selectAvatar('🦖')" class="avatar-card p-3 bg-emerald-100 rounded-xl text-center border-2 border-black">🦖</div>
+                <div onclick="selectAvatar('🚀')" class="avatar-card p-3 bg-blue-100 rounded-xl text-center border-2 border-black">🧑‍🚀</div>
+                <div onclick="selectAvatar('🐱')" class="avatar-card p-3 bg-orange-100 rounded-xl text-center border-2 border-black">🐱</div>
+            </div>
+            <button onclick="saveUserProfile()" class="btn-solid bg-bgHijau text-white w-full py-3 rounded-xl font-black">Simpan Identitas</button>
+        </div>
+    </div>
+
+    <!-- MODAL DIALOG BOX BACA MATERI LENGKAP -->
+    <div id="materiDetailModal" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white border-4 border-black p-6 rounded-2xl max-w-3xl w-full max-h-[90vh] flex flex-col space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center border-b-3 border-black pb-2">
+                <h3 id="modalTitle" class="text-xl font-black text-black">Judul Bab</h3>
+                <button onclick="document.getElementById('materiDetailModal').classList.add('hidden')" class="font-black px-3 py-1 bg-gray-200 border-2 border-black rounded-lg hover:bg-red-400">✕</button>
+            </div>
+            <div id="modalSummary" class="font-bold text-sm bg-amber-100 p-3 rounded-xl border-2 border-black"></div>
+            
+            <!-- Dialog Box Isi Materi Utama -->
+            <div id="modalPdfContent" class="bg-slate-900 text-white p-5 rounded-xl text-sm leading-relaxed overflow-y-auto max-h-[300px] border-2 border-black space-y-3"></div>
+            
+            <!-- Lampiran File -->
+            <div id="modalAttachments" class="space-y-2"></div>
+            
+            <div class="flex justify-between items-center pt-2 border-t-2 border-black">
+                <button onclick="document.getElementById('materiDetailModal').classList.add('hidden')" class="btn-solid bg-gray-200 text-black px-4 py-2 rounded-xl text-xs">Tutup</button>
+                <button onclick="startQuizFromModule()" class="btn-solid bg-bgOranye text-white px-6 py-2 rounded-xl text-xs font-black">Kerjakan Kuis Bab Ini 🚀</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = { name: '', avatar: '🤖', stars: 0 };
+        let currentActiveBab = 'Bab 1';
+        let currentQuizQuestions = [], currentQuizIndex = 0, currentAnswers = [], selectedOptionIndex = null, quizTimerInterval = null;
+
+        // 6 Bab Materi Lengkap dengan Teks Rapi Sesuai Permintaan
+        let materiData = JSON.parse(localStorage.getItem('info_materi_data_split')) || [
+            { 
+                id: 'm1', bab: 'Bab 1', title: 'Peran Komputer dan Tata Tertib Laboratorium', code: 'LD', icon: '🖥️', 
+                summary: 'Mengenal komputer sebagai alat bantu belajar dan aturan keselamatan di laboratorium.', 
+                pdfText: '<b>Komputer sebagai Alat Bantu Belajar yang Hebat:</b><br>Komputer adalah benda canggih ciptaan manusia yang sangat berguna. Kita wajib bersyukur kepada Tuhan Yang Maha Esa atas nikmat akal dan ilmu pengetahuan ini.<br><br>Komputer membantu manusia bekerja lebih cepat dan mudah di berbagai tempat:<br>- <b>Di Sekolah:</b> Membantu guru membuat materi pelajaran dan membantu siswa belajar ilmu baru.<br>- <b>Di Toko / Swalayan:</b> Membantu kasir menghitung total harga belanjaan pembeli dengan cepat.<br>- <b>Di Bank (ATM):</b> Membantu orang dewasa mengambil uang tunai dengan aman.<br>- <b>Di Bandara:</b> Membantu petugas mengatur jadwal terbang pesawat agar tidak bertabrakan.<br><br><b>Tata Tertib di Ruang Lab Komputer:</b><br>1. Sebelum mulai belajar, biasakan membaca doa atau Basmalah agar ilmu yang kita dapatkan menjadi berkah.<br>2. Jaga kebersihan ruangan lab, tidak boleh membawa makanan atau minuman ke dekat komputer supaya mesin tidak rusak terkena tumpahan air.<br>3. Duduk dengan tertib, gunakan komputer dengan hati-hati, dan rapikan kembali kursi serta meja setelah selesai belajar.<br>4. Dilarang berlari-lari atau dorong-dorongan di dalam ruang lab komputer karena berbahaya.', 
+                files: [] 
+            },
+            { 
+                id: 'm2', bab: 'Bab 2', title: 'Hardware, Software, Input, Process, Output, dan Konsep IPO', code: 'LD+BK', icon: '⌨️', 
+                summary: 'Mengenal perangkat keras, perangkat lunak, serta siklus kerja komputer.', 
+                pdfText: '<b>Mengenal Perangkat Keras (Hardware):</b><br>Hardware adalah komponen fisik komputer yang wujudnya nyata, bisa dilihat dengan mata, dan bisa disentuh dengan tangan. Contohnya: keyboard, mouse, monitor, CPU, dan printer.<br><br><b>Mengenal Perangkat Lunak (Software):</b><br>Software adalah program atau aplikasi yang ada di dalam komputer (tidak bisa disentuh bentuknya, tapi bisa dilihat gambarnya di layar). Contohnya: Sistem operasi Windows, aplikasi Microsoft Paint, dan Word.<br><br><b>Kelompok Perangkat Keras (Hardware) Sesuai Fungsinya:</b><br>- <b>Input Device (Alat Masukan):</b> Alat untuk memasukkan data atau perintah ke dalam komputer. Contoh: Keyboard dan mouse.<br>- <b>Process Device (Alat Pemroses):</b> Otak utama komputer yang mengolah semua data. Berada di dalam kotak CPU (Central Processing Unit).<br>- <b>Output Device (Alat Keluaran):</b> Alat untuk menampilkan atau mencetak hasil kerja komputer. Contoh: Monitor dan printer.<br><br><b>Konsep Siklus Kerja Komputer (IPO - Input, Process, Output):</b><br>1. <b>Input:</b> Memasukkan bahan atau data awal.<br>2. <b>Process:</b> Data tersebut diolah atau dikerjakan oleh komputer.<br>3. <b>Output:</b> Muncul hasil akhir yang bisa kita lihat atau gunakan.<br><i>Contoh dalam kehidupan sehari-hari (Membuat Es Teh Manis):</i><br>- Input: Teh, gula, air hangat, dan es batu.<br>- Process: Mengaduk gula dan teh dengan air hangat lalu mencampur es batu.<br>- Output: Segelas es teh manis segar siap diminum.', 
+                files: [] 
+            },
+            { 
+                id: 'm3', bab: 'Bab 3', title: 'Menyalakan, Mematikan Komputer, Mouse, Keyboard, dan Desktop', code: 'LD', icon: '🖱️', 
+                summary: 'Prosedur menghidupkan dan mematikan komputer yang aman.', 
+                pdfText: '<b>Cara Menyalakan Komputer yang Benar:</b><br>1. Pastikan kabel listrik komputer sudah tercolok dengan aman ke stopkontak.<br>2. Tekan tombol power pada kotak CPU terlebih dahulu.<br>3. Tekan tombol power pada layar monitor.<br>4. Tunggu beberapa saat sampai layar utama komputer menyala.<br><br><b>Cara Mematikan Komputer (Shutdown) yang Aman:</b><br>1. Tutup semua aplikasi atau jendela program yang masih terbuka di layar.<br>2. Arahkan kursor dan klik menu Start di pojok kiri bawah layar.<br>3. Pilih tombol Power, lalu klik pilihan Shut down.<br>4. Tunggu sampai lampu CPU dan layar benar-benar mati total, baru rapikan meja. (Jangan langsung mencabut kabel listrik saat komputer masih menyala!).<br><br><b>Mengenal Bagian Penting Lainnya:</b><br>- <b>Mouse (Tetikus):</b> Alat kecil untuk mengarahkan kursor dan mengeklik sesuatu di layar.<br>- <b>Keyboard (Papan Ketik):</b> Papan berisi tombol huruf dan angka untuk mengetik kalimat.<br>- <b>Desktop:</b> Tampilan gambar latar belakang utama di layar monitor setelah komputer menyala.', 
+                files: [] 
+            },
+            { 
+                id: 'm4', bab: 'Bab 4', title: 'Folder, Save, Save As, Open, dan Rename File', code: 'BK', icon: '📁', 
+                summary: 'Cara mengatur berkas dan folder digital di komputer.', 
+                pdfText: '<b>Bedanya File dan Folder:</b><br>- <b>File:</b> Hasil kerja atau dokumen digital yang kita buat (contoh: cerita hasil ketikan atau gambar hasil lukisan).<br>- <b>Folder:</b> Kotak penyimpanan atau wadah digital untuk mengelompokkan berbagai file agar rapi dan tidak berantakan.<br><br><b>Perintah Penting dalam Pengelolaan Berkas:</b><br>- <b>Save:</b> Perintah untuk merekam atau menyimpan hasil pekerjaan baru agar tidak hilang.<br>- <b>Save As:</b> Perintah untuk menyimpan dokumen dengan nama baru atau di tempat yang berbeda.<br>- <b>Open:</b> Perintah untuk membuka kembali dokumen lama yang sudah pernah disimpan.<br>- <b>Rename:</b> Perintah untuk mengganti nama suatu file atau folder agar sesuai dengan isinya.<br>- <b>Copy:</b> Menyalin atau menggandakan teks, file, gambar, atau data ke lokasi sementara (clipboard) untuk ditempelkan (paste) ke tempat lain.<br>- <b>Cut:</b> Memotong atau memindahkan teks, file, gambar, atau data dari lokasi aslinya ke lokasi sementara (clipboard) untuk ditempelkan (paste) ke tempat lain.<br><br><b>Aturan Penting:</b><br>Sebuah file tidak bisa diganti namanya (rename) jika berkas tersebut sedang dalam keadaan dibuka atau dipakai oleh program lain. Kita harus menutup aplikasinya terlebih dahulu.', 
+                files: [] 
+            },
+            { 
+                id: 'm5', bab: 'Bab 5', title: 'Urutan Langkah dan Algoritma Sederhana', code: 'AP', icon: '🧩', 
+                summary: 'Belajar berpikir logis dan terstruktur melalui algoritma.', 
+                pdfText: '<b>Apa itu Algoritma?</b><br>Algoritma adalah susunan langkah-langkah atau cara penyelesaian masalah yang disusun secara logis, teratur, runtut, dan tidak boleh dibolak-balik agar hasilnya sempurna.<br><br><b>Contoh Algoritma dalam Keseharian (Mencuci Tangan):</b><br>1. Memasahi kedua tangan dengan air mengalir.<br>2. Memakai sabun dan menggosok telapak serta sela-sela jari tangan.<br>3. Membilas busa sabun dengan air bersih sampai hilang.<br>4. Mengeringkan tangan menggunakan lap atau handuk bersih.<br><br><b>Debugging:</b><br>Perbaikan pada urutan langkah yang keliru agar susunannya kembali benar dan logis.', 
+                files: [] 
+            },
+            { 
+                id: 'm6', bab: 'Bab 6', title: 'Mengenal Aplikasi Microsoft Paint', code: 'Integrasi', icon: '🎨', 
+                summary: 'Belajar menggambar dan mewarnai secara digital menggunakan Microsoft Paint.', 
+                pdfText: '<b>Mengenal Microsoft Paint:</b><br>Paint adalah aplikasi komputer yang asyik digunakan untuk menggambar, melukis, dan mewarnai secara digital di layar monitor.<br><br><b>Mengenal Nama dan Fungsi Tool (Alat) di Paint:</b><br>- <b>Pencil (Ikon Pensil):</b> Berfungsi untuk menggambar garis bebas tipis layaknya pensil tulis.<br>- <b>Eraser (Ikon Penghapus):</b> Berfungsi untuk menghapus bagian gambar atau garis yang salah.<br>- <b>Fill with Color (Ikon Kaleng Cat Tumpah):</b> Berfungsi untuk mewarnai suatu bidang gambar tertutup secara instan dengan satu kali klik.<br>- <b>Text (Ikon Huruf A):</b> Berfungsi untuk menyisipkan atau mengetik judul tulisan pada lembar gambar.<br>- <b>Brushes (Ikon Kuas):</b> Berfungsi untuk melukis dengan pilihan bentuk garis kuas yang bermacam-macam.', 
+                files: [] 
+            }
+        ];
+
+        let defaultQuestions = [
+            { id: 1, bab: 'Bab 1', question: 'Apa akibatnya jika membawa makanan di dekat keyboard lab?', options: ['Cepat rusak/korsleting', 'Komputer cepat', 'Layar terang', 'Mouse responsif'], correct: 0, pembahasan: 'Cairan/makanan dapat merusak komponen.' },
+            { id: 2, bab: 'Bab 6', question: 'Alat ember tumpah (Fill with Color) di Paint berguna untuk apa?', options: ['Menghapus', 'Mewarnai bidang tertutup', 'Membuat garis', 'Menulis'], correct: 1, pembahasan: 'Fill with Color mewarnai area tertutup secara instan.' }
+        ];
+
+        let kisiKisiData = [
+            { bab: 'Bab 1', materi: 'Tata Tertib Lab', indikator: 'Menyebutkan aturan keselamatan lab', level: 'L1', bentuk: 'PG' },
+            { bab: 'Bab 2', materi: 'Siklus IPO', indikator: 'Mengidentifikasi perangkat Input Device', level: 'L2', bentuk: 'PG' },
+            { bab: 'Bab 3', materi: 'Sistem Operasi', indikator: 'Menjelaskan fungsi dasar mouse', level: 'L1', bentuk: 'PG' },
+            { bab: 'Bab 4', materi: 'Berkas Digital', indikator: 'Memahami fungsi penyimpanan file', level: 'L2', bentuk: 'PG' },
+            { bab: 'Bab 5', materi: 'Algoritma', indikator: 'Menyusun langkah logis runtut', level: 'L3', bentuk: 'PG' },
+            { bab: 'Bab 6', materi: 'Microsoft Paint', indikator: 'Menjelaskan fungsi alat ember tumpah Paint', level: 'L1', bentuk: 'PG' }
+        ];
+
+        window.onload = function() {
+            loadUser(); renderMateri(); renderQuizHub(); renderKisiKisi(); renderLeaderboard();
+        };
+
+        function switchTab(t) {
+            ['materi', 'kuis', 'kisikisi', 'leaderboard'].forEach(tab => {
+                document.getElementById(`section-${tab}`).classList.add('hidden');
+                document.getElementById(`tab-${tab}`).classList.remove('bg-bgKuning');
+                document.getElementById(`tab-${tab}`).classList.add('bg-white');
+            });
+            document.getElementById(`section-${t}`).classList.remove('hidden');
+            document.getElementById(`tab-${t}`).classList.add('bg-bgKuning');
+            document.getElementById(`tab-${t}`).classList.remove('bg-white');
+        }
+
+        function loadUser() {
+            let u = localStorage.getItem('info_student_user');
+            if(u) {
+                currentUser = JSON.parse(u);
+                document.getElementById('userProfileDisplay').classList.remove('hidden');
+                document.getElementById('userProfileDisplay').classList.add('flex');
+                document.getElementById('loginProfileBtn').classList.add('hidden');
+                document.getElementById('navAvatar').innerText = currentUser.avatar;
+                document.getElementById('navName').innerText = currentUser.name;
+                document.getElementById('starVal').innerText = currentUser.stars;
+                document.getElementById('kuisUserPrompt').classList.add('hidden');
+            }
+        }
+        function openAvatarModal() { document.getElementById('avatarModal').classList.remove('hidden'); document.getElementById('inputStudentName').value = currentUser.name || ''; }
+        function selectAvatar(e) { currentUser.avatar = e; document.querySelectorAll('.avatar-card').forEach(c => c.classList.toggle('selected', c.innerText === e)); }
+        function saveUserProfile() {
+            let name = document.getElementById('inputStudentName').value.trim();
+            if(!name) return alert('Isi nama!');
+            currentUser.name = name;
+            localStorage.setItem('info_student_user', JSON.stringify(currentUser));
+            loadUser(); document.getElementById('avatarModal').classList.add('hidden');
+        }
+
+        function renderMateri() {
+            let customMateri = JSON.parse(localStorage.getItem('info_materi_data_split')) || materiData;
+            document.getElementById('materiGrid').innerHTML = customMateri.map(m => `
+                <div class="card-solid bg-white p-5 flex flex-col justify-between space-y-4">
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="bg-bgKuning font-black text-xs px-2 py-0.5 rounded border border-black">${m.bab}</span>
+                            <span class="text-3xl">${m.icon}</span>
+                        </div>
+                        <h3 class="font-black text-xl mb-1">${m.title}</h3>
+                        <p class="font-bold text-xs text-slate-700">${m.summary}</p>
+                    </div>
+                    <button onclick="openMateri('${m.id}')" class="btn-solid bg-purple-100 text-purple-950 py-2.5 rounded-xl text-xs flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-book-open-reader"></i> Baca Materi & Unduh Berkas
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function openMateri(id) {
+            let all = JSON.parse(localStorage.getItem('info_materi_data_split')) || materiData;
+            let m = all.find(x => x.id === id);
+            if(!m) return;
+            currentActiveBab = m.bab;
+            document.getElementById('modalTitle').innerText = `${m.bab}: ${m.title}`;
+            document.getElementById('modalSummary').innerText = m.summary;
+            document.getElementById('modalPdfContent').innerHTML = m.pdfText;
+            
+            let att = document.getElementById('modalAttachments');
+            att.innerHTML = (m.files && m.files.length > 0) ? m.files.map(f => `
+                <div class="flex justify-between items-center p-2.5 bg-purple-50 border-2 border-black rounded-xl text-xs font-bold">
+                    <span><i class="fa-solid fa-file-pdf text-red-600 mr-2"></i> ${f.name}</span>
+                    <a href="${f.dataUrl}" download="${f.name}" class="btn-solid bg-bgKuning px-3 py-1 rounded-lg text-xs"><i class="fa-solid fa-download"></i> Unduh File</a>
+                </div>
+            `).join('') : '<span class="text-xs font-bold text-slate-500">Belum ada file lampiran tambahan dari guru.</span>';
+
+            document.getElementById('materiDetailModal').classList.remove('hidden');
+        }
+
+        function startQuizFromModule() {
+            document.getElementById('materiDetailModal').classList.add('hidden');
+            switchTab('kuis');
+            startQuiz(currentActiveBab);
+        }
+
+        function renderQuizHub() {
+            let babs = ['Bab 1', 'Bab 2', 'Bab 3', 'Bab 4', 'Bab 5', 'Bab 6'];
+            document.getElementById('quizPackageList').innerHTML = babs.map(b => `
+                <div class="card-solid bg-purple-50 p-4 flex justify-between items-center">
+                    <div><span class="bg-bgOranye text-white text-xs font-black px-2 py-0.5 rounded border border-black">${b}</span><h4 class="font-black text-base mt-1">Kuis Latihan ${b}</h4></div>
+                    <button onclick="startQuiz('${b}')" class="btn-solid bg-bgHijau text-white px-4 py-2 rounded-xl text-xs">Mulai</button>
+                </div>
+            `).join('');
+        }
+
+        function startQuiz(bab) {
+            if(!currentUser.name) return openAvatarModal();
+            let customQ = JSON.parse(localStorage.getItem('info_custom_questions') || '[]');
+            let allQ = [...defaultQuestions, ...customQ];
+            currentQuizQuestions = allQ.filter(q => q.bab === bab);
+            if(currentQuizQuestions.length === 0) currentQuizQuestions = defaultQuestions;
+
+            currentQuizIndex = 0; currentAnswers = [];
+            document.getElementById('quizHub').classList.add('hidden');
+            document.getElementById('quizResultView').classList.add('hidden');
+            document.getElementById('quizArena').classList.remove('hidden');
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            let q = currentQuizQuestions[currentQuizIndex];
+            document.getElementById('quizBabBadge').innerText = q.bab;
+            document.getElementById('quizProgressText').innerText = `${currentQuizIndex+1} / ${currentQuizQuestions.length}`;
+            document.getElementById('questionText').innerText = q.question;
+            document.getElementById('feedbackBox').classList.add('hidden');
+            document.getElementById('nextQuestionBtn').disabled = true;
+            document.getElementById('nextQuestionBtn').classList.add('opacity-50');
+            selectedOptionIndex = null;
+
+            let labels = ['A', 'B', 'C', 'D'];
+            document.getElementById('optionsContainer').innerHTML = q.options.map((opt, i) => `
+                <button onclick="selectOpt(${i})" id="opt-${i}" class="opt-btn btn-solid bg-white text-left p-4 rounded-xl font-bold text-sm flex gap-3">
+                    <span class="w-7 h-7 bg-purple-100 border-2 border-black rounded flex items-center justify-center">${labels[i]}</span><span>${opt}</span>
+                </button>
+            `).join('');
+        }
+
+        function selectOpt(i) {
+            if(selectedOptionIndex !== null) return;
+            selectedOptionIndex = i;
+            let q = currentQuizQuestions[currentQuizIndex];
+            let isCorrect = (i === q.correct);
+
+            let box = document.getElementById('feedbackBox');
+            box.classList.remove('hidden');
+            box.className = isCorrect ? "p-4 border-3 border-black rounded-xl bg-emerald-100 text-emerald-950" : "p-4 border-3 border-black rounded-xl bg-red-100 text-red-950";
+            document.getElementById('feedbackTitle').innerText = isCorrect ? "✅ Benar!" : "❌ Kurang Tepat!";
+            document.getElementById('feedbackText').innerText = "Pembahasan: " + q.pembahasan;
+
+            document.querySelectorAll('.opt-btn').forEach((btn, idx) => {
+                if(idx === q.correct) btn.classList.add('bg-benarHijau', 'text-white');
+                else if(idx === i && !isCorrect) btn.classList.add('bg-salahMerah', 'text-white');
+                else btn.classList.add('opacity-45');
+            });
+
+            currentAnswers.push({ num: currentQuizIndex+1, question: q.question, isCorrect, chosen: q.options[i] });
+            document.getElementById('nextQuestionBtn').disabled = false;
+            document.getElementById('nextQuestionBtn').classList.remove('opacity-50');
+        }
+
+        function nextQuestion() {
+            currentQuizIndex++;
+            if(currentQuizIndex < currentQuizQuestions.length) renderQuestion();
+            else finishQuiz();
+        }
+
+        function quitQuiz() { document.getElementById('quizArena').classList.add('hidden'); document.getElementById('quizHub').classList.remove('hidden'); }
+
+        function finishQuiz() {
+            document.getElementById('quizArena').classList.add('hidden');
+            document.getElementById('quizResultView').classList.remove('hidden');
+            let correct = currentAnswers.filter(a => a.isCorrect).length;
+            let score = Math.round((correct / currentAnswers.length) * 100);
+
+            document.getElementById('resultAvatar').innerText = currentUser.avatar;
+            document.getElementById('resultPlayerName').innerText = currentUser.name;
+            document.getElementById('finalScore').innerText = score;
+            document.getElementById('finalCorrectCount').innerText = `${correct}/${currentAnswers.length}`;
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+
+            currentUser.stars += score;
+            localStorage.setItem('info_student_user', JSON.stringify(currentUser));
+            loadUser();
+
+            document.getElementById('numberDetailCards').innerHTML = currentAnswers.map(a => `
+                <div class="card-solid ${a.isCorrect ? 'bg-benarHijau' : 'bg-salahMerah'} text-white p-4 space-y-2">
+                    <div class="flex justify-between"><span class="font-black bg-black/20 px-2 rounded">No. ${a.num}</span><span>${a.isCorrect ? '✅ BENAR' : '❌ SALAH'}</span></div>
+                    <div class="font-bold text-sm">${a.question}</div>
+                    <div class="bg-white text-slate-900 p-2 rounded text-xs">Jawabanmu: ${a.chosen}</div>
+                </div>
+            `).join('');
+
+            let board = JSON.parse(localStorage.getItem('info_leaderboard') || '[]');
+            let rincian = currentAnswers.map(a => `No.${a.num}:${a.isCorrect?'✅':'❌'}`).join(' | ');
+            board.push({ nama: currentUser.name, avatar: currentUser.avatar, paket: currentQuizQuestions[0].bab, skor: score, rincian, waktu: new Date().toLocaleString() });
+            board.sort((a,b) => b.skor - a.skor);
+            localStorage.setItem('info_leaderboard', JSON.stringify(board));
+            renderLeaderboard();
+        }
+
+        function renderLeaderboard() {
+            let board = JSON.parse(localStorage.getItem('info_leaderboard') || '[]');
+            let tbody = document.getElementById('leaderboardTableBody');
+            if(board.length === 0) { tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center font-bold">Belum ada skor kuis.</td></tr>'; return; }
+            tbody.innerHTML = board.map((r, i) => `
+                <tr class="hover:bg-purple-50">
+                    <td class="p-3 border-r-2 border-black text-center font-black">${i+1}</td>
+                    <td class="p-3 border-r-2 border-black font-bold">${r.avatar} ${r.nama}</td>
+                    <td class="p-3 border-r-2 border-black">${r.paket}</td>
+                    <td class="p-3 border-r-2 border-black text-center font-black text-purple-900">${r.skor} Poin</td>
+                    <td class="p-3 text-xs text-slate-500">${r.waktu}</td>
+                </tr>
+            `).join('');
+        }
+
+        function renderKisiKisi() {
+            document.getElementById('kisiKisiTableBody').innerHTML = kisiKisiData.map(k => `
+                <tr>
+                    <td class="p-3 border-r-2 border-black font-black text-purple-900">${k.bab}</td>
+                    <td class="p-3 border-r-2 border-black">${k.materi}</td>
+                    <td class="p-3 border-r-2 border-black">${k.indikator}</td>
+                    <td class="p-3 border-r-2 border-black text-center"><span class="bg-purple-100 px-2 py-0.5 rounded border border-black font-black text-xs">${k.level}</span></td>
+                    <td class="p-3 text-center font-black">${k.bentuk}</td>
+                </tr>
+            `).join('');
+        }
+    </script>
+</body>
+</html>
