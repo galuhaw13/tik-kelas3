@@ -103,7 +103,7 @@
                         <span id="quizBabBadge" class="bg-purple-200 text-purple-950 font-extrabold text-xs px-3 py-1 rounded border-2 border-black">Bab 1</span>
                         <h2 id="quizTitle" class="text-2xl font-black mt-1">Soal Kuis</h2>
                     </div>
-                    <div id="quizTimer" class="w-14 h-14 rounded-2xl bg-bgKuning border-3 border-black flex items-center justify-center font-black text-lg">30s</div>
+                    <div id="quizTimer" class="w-14 h-14 rounded-2xl bg-bgKuning border-3 border-black flex items-center justify-center font-black text-lg"><span id="quizProgressText">1/5</span></div>
                 </div>
                 <div class="bg-purple-50 border-3 border-black p-6 rounded-xl">
                     <h3 id="questionText" class="text-lg md:text-xl font-black text-slate-900">Loading...</h3>
@@ -123,7 +123,7 @@
             <div id="quizResultView" class="hidden space-y-6">
                 <div class="bg-bgKuning border-4 border-black p-6 rounded-2xl text-center space-y-3">
                     <div id="resultAvatar" class="text-6xl animate-bounce">🏆</div>
-                    <h2 class="text-3xl font-black">Kuis Selesai!</h2>
+                    <h2 class="text-3xl font-black">Kuis Selesai, <span id="resultPlayerName">Siswa</span>!</h2>
                     <div class="inline-flex items-center gap-6 bg-white border-3 border-black p-4 rounded-xl">
                         <div><div class="text-xs uppercase font-black">Total Poin</div><div id="finalScore" class="text-3xl font-black text-bgOranye">100</div></div>
                         <div class="h-10 w-1 bg-black"></div>
@@ -163,7 +163,6 @@
         <section id="section-leaderboard" class="hidden space-y-6">
             <div class="bg-white border-4 border-black p-6 rounded-2xl shadow-solid-lg space-y-6">
                 <h2 class="text-2xl font-black">🏆 Papan Peringkat Siswa</h2>
-                <div id="podiumContainer" class="grid grid-cols-3 gap-3 max-w-lg mx-auto items-end"></div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
@@ -190,7 +189,7 @@
             <div class="grid grid-cols-4 gap-3 text-3xl">
                 <div onclick="selectAvatar('🤖')" class="avatar-card p-3 bg-purple-100 rounded-xl text-center border-2 border-black">🤖</div>
                 <div onclick="selectAvatar('🦖')" class="avatar-card p-3 bg-emerald-100 rounded-xl text-center border-2 border-black">🦖</div>
-                <div onclick="selectAvatar('🚀')" class="avatar-card p-3 bg-blue-100 rounded-xl text-center border-2 border-black">🧑‍🚀</div>
+                <div onclick="selectAvatar('🧑‍🚀')" class="avatar-card p-3 bg-blue-100 rounded-xl text-center border-2 border-black">🧑‍🚀</div>
                 <div onclick="selectAvatar('🐱')" class="avatar-card p-3 bg-orange-100 rounded-xl text-center border-2 border-black">🐱</div>
             </div>
             <button onclick="saveUserProfile()" class="btn-solid bg-bgHijau text-white w-full py-3 rounded-xl font-black">Simpan Identitas</button>
@@ -222,10 +221,10 @@
     <script>
         let currentUser = { name: '', avatar: '🤖', stars: 0 };
         let currentActiveBab = 'Bab 1';
-        let currentQuizQuestions = [], currentQuizIndex = 0, currentAnswers = [], selectedOptionIndex = null, quizTimerInterval = null;
+        let currentQuizQuestions = [], currentQuizIndex = 0, currentAnswers = [], selectedOptionIndex = null;
 
-        // 6 Bab Materi Lengkap dengan Teks Rapi Sesuai Permintaan
-        let materiData = JSON.parse(localStorage.getItem('info_materi_data_split')) || [
+        // Data Materi Baku Lengkap Bab 1 s.d. Bab 6
+        const defaultMateriData = [
             { 
                 id: 'm1', bab: 'Bab 1', title: 'Peran Komputer dan Tata Tertib Laboratorium', code: 'LD', icon: '🖥️', 
                 summary: 'Mengenal komputer sebagai alat bantu belajar dan aturan keselamatan di laboratorium.', 
@@ -247,7 +246,7 @@
             { 
                 id: 'm4', bab: 'Bab 4', title: 'Folder, Save, Save As, Open, dan Rename File', code: 'BK', icon: '📁', 
                 summary: 'Cara mengatur berkas dan folder digital di komputer.', 
-                pdfText: '<b>Bedanya File dan Folder:</b><br>- <b>File:</b> Hasil kerja atau dokumen digital yang kita buat (contoh: cerita hasil ketikan atau gambar hasil lukisan).<br>- <b>Folder:</b> Kotak penyimpanan atau wadah digital untuk mengelompokkan berbagai file agar rapi dan tidak berantakan.<br><br><b>Perintah Penting dalam Pengelolaan Berkas:</b><br>- <b>Save:</b> Perintah untuk merekam atau menyimpan hasil pekerjaan baru agar tidak hilang.<br>- <b>Save As:</b> Perintah untuk menyimpan dokumen dengan nama baru atau di tempat yang berbeda.<br>- <b>Open:</b> Perintah untuk membuka kembali dokumen lama yang sudah pernah disimpan.<br>- <b>Rename:</b> Perintah untuk mengganti nama suatu file atau folder agar sesuai dengan isinya.<br>- <b>Copy:</b> Menyalin atau menggandakan teks, file, gambar, atau data ke lokasi sementara (clipboard) untuk ditempelkan (paste) ke tempat lain.<br>- <b>Cut:</b> Memotong atau memindahkan teks, file, gambar, atau data dari lokasi aslinya ke lokasi sementara (clipboard) untuk ditempelkan (paste) ke tempat lain.<br><br><b>Aturan Penting:</b><br>Sebuah file tidak bisa diganti namanya (rename) jika berkas tersebut sedang dalam keadaan dibuka atau dipakai oleh program lain. Kita harus menutup aplikasinya terlebih dahulu.', 
+                pdfText: '<b>Bedanya File dan Folder:</b><br>- <b>File:</b> Hasil kerja atau dokumen digital yang kita buat (contoh: cerita hasil ketikan atau gambar hasil lukisan).<br>- <b>Folder:</b> Kotak penyimpanan atau wadah digital untuk mengelompokkan berbagai file agar rapi dan tidak berantakan.<br><br><b>Perintah Penting dalam Pengelolaan Berkas:</b><br>- <b>Save:</b> Perintah untuk merekam atau menyimpan hasil pekerjaan baru agar tidak hilang.<br>- <b>Save As:</b> Perintah untuk menyimpan dokumen dengan nama baru atau di tempat yang berbeda.<br>- <b>Open:</b> Perintah untuk membuka kembali dokumen lama yang sudah pernah disimpan.<br>- <b>Rename:</b> Perintah untuk mengganti nama suatu file atau folder agar sesuai dengan isinya.<br><br><b>Aturan Penting:</b><br>Sebuah file tidak bisa diganti namanya (rename) jika berkas tersebut sedang dalam keadaan dibuka atau dipakai oleh program lain. Kita harus menutup aplikasinya terlebih dahulu.', 
                 files: [] 
             },
             { 
@@ -279,6 +278,21 @@
         ];
 
         window.onload = function() {
+            // Sinkronisasi data agar file lampiran dari guru tidak hilang, tapi teks & judul selalu diperbarui
+            let savedMateri = JSON.parse(localStorage.getItem('info_materi_data_split'));
+            if (!savedMateri) {
+                localStorage.setItem('info_materi_data_split', JSON.stringify(defaultMateriData));
+            } else {
+                // Gabungkan file lampiran dari penyimpanan lama ke struktur data baru
+                defaultMateriData.forEach(def => {
+                    let found = savedMateri.find(s => s.bab === def.bab);
+                    if (found && found.files) {
+                        def.files = found.files;
+                    }
+                });
+                localStorage.setItem('info_materi_data_split', JSON.stringify(defaultMateriData));
+            }
+
             loadUser(); renderMateri(); renderQuizHub(); renderKisiKisi(); renderLeaderboard();
         };
 
@@ -317,7 +331,7 @@
         }
 
         function renderMateri() {
-            let customMateri = JSON.parse(localStorage.getItem('info_materi_data_split')) || materiData;
+            let customMateri = JSON.parse(localStorage.getItem('info_materi_data_split')) || defaultMateriData;
             document.getElementById('materiGrid').innerHTML = customMateri.map(m => `
                 <div class="card-solid bg-white p-5 flex flex-col justify-between space-y-4">
                     <div>
@@ -336,7 +350,7 @@
         }
 
         function openMateri(id) {
-            let all = JSON.parse(localStorage.getItem('info_materi_data_split')) || materiData;
+            let all = JSON.parse(localStorage.getItem('info_materi_data_split')) || defaultMateriData;
             let m = all.find(x => x.id === id);
             if(!m) return;
             currentActiveBab = m.bab;
@@ -347,8 +361,13 @@
             let att = document.getElementById('modalAttachments');
             att.innerHTML = (m.files && m.files.length > 0) ? m.files.map(f => `
                 <div class="flex justify-between items-center p-2.5 bg-purple-50 border-2 border-black rounded-xl text-xs font-bold">
-                    <span><i class="fa-solid fa-file-pdf text-red-600 mr-2"></i> ${f.name}</span>
-                    <a href="${f.dataUrl}" download="${f.name}" class="btn-solid bg-bgKuning px-3 py-1 rounded-lg text-xs"><i class="fa-solid fa-download"></i> Unduh File</a>
+                    <span class="truncate max-w-[200px] md:max-w-[300px]">
+                        <i class="fa-solid fa-file-pdf text-red-600 mr-2"></i> ${f.name}
+                    </span>
+                    <div class="flex items-center gap-2">
+                        ${f.driveUrl ? `<a href="${f.driveUrl}" target="_blank" class="btn-solid bg-bgKuning px-3 py-1 rounded-lg text-xs"><i class="fa-solid fa-eye"></i> Baca</a>` : ''}
+                        <a href="${f.downloadUrl || f.driveUrl || f.dataUrl}" download="${f.name}" target="_blank" class="btn-solid bg-bgHijau text-white px-3 py-1 rounded-lg text-xs"><i class="fa-solid fa-download"></i> Unduh</a>
+                    </div>
                 </div>
             `).join('') : '<span class="text-xs font-bold text-slate-500">Belum ada file lampiran tambahan dari guru.</span>';
 
