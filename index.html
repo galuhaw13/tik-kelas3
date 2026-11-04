@@ -76,7 +76,7 @@
         <section id="section-materi" class="space-y-6">
             <div class="bg-bgKuning border-4 border-black p-6 rounded-2xl shadow-solid-lg text-black">
                 <h2 class="text-2xl font-black mb-1">📚 Materi Pelajaran Informatika Kelas 3 SD</h2>
-                <p class="font-bold text-slate-800 text-sm">Klik kartu materi di bawah ini untuk membaca rangkuman lengkap (Bab 1 s.d. Bab 6) melalui dialog box interaktif[cite: 1]!</p>
+                <p class="font-bold text-slate-800 text-sm">Klik kartu materi di bawah ini untuk membaca rangkuman lengkap (Bab 1 s.d. Bab 6) melalui dialog box interaktif!</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="materiGrid"></div>
         </section>
@@ -141,19 +141,26 @@
         <!-- SECTION 3: KISI-KISI -->
         <section id="section-kisikisi" class="hidden space-y-6">
             <div class="bg-white border-4 border-black p-6 rounded-2xl shadow-solid-lg space-y-4">
-                <h2 class="text-2xl font-black">📋 Kisi-Kisi Ujian Informatika Kelas 3 SD</h2>
+                <div class="flex justify-between items-center border-b-3 border-black pb-3">
+                    <div>
+                        <h2 class="text-2xl font-black">📋 Kisi-Kisi Ujian Informatika Kelas 3 SD</h2>
+                        <p class="text-xs font-bold text-slate-600">Daftar Indikator dan Capaian Pembelajaran Soal (40 Nomor)</p>
+                    </div>
+                    <span class="bg-bgKuning border-2 border-black px-3 py-1 rounded-xl text-xs font-black">40 Indikator Soal</span>
+                </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="bg-bgKuning border-3 border-black font-black text-sm">
-                                <th class="p-3 border-r-2 border-black">Bab</th>
+                            <tr class="bg-bgKuning border-3 border-black font-black text-xs uppercase">
+                                <th class="p-3 border-r-2 border-black text-center">No</th>
+                                <th class="p-3 border-r-2 border-black">Elemen / Capaian Pembelajaran</th>
                                 <th class="p-3 border-r-2 border-black">Materi</th>
                                 <th class="p-3 border-r-2 border-black">Indikator Soal</th>
                                 <th class="p-3 border-r-2 border-black text-center">Level</th>
                                 <th class="p-3 text-center">Bentuk</th>
                             </tr>
                         </thead>
-                        <tbody id="kisiKisiTableBody" class="font-bold text-sm divide-y-2 divide-black"></tbody>
+                        <tbody id="kisiKisiTableBody" class="font-bold text-xs divide-y-2 divide-black"></tbody>
                     </table>
                 </div>
             </div>
@@ -268,22 +275,56 @@
             { id: 2, bab: 'Bab 6', question: 'Alat ember tumpah (Fill with Color) di Paint berguna untuk apa?', options: ['Menghapus', 'Mewarnai bidang tertutup', 'Membuat garis', 'Menulis'], correct: 1, pembahasan: 'Fill with Color mewarnai area tertutup secara instan.' }
         ];
 
-        let kisiKisiData = [
-            { bab: 'Bab 1', materi: 'Tata Tertib Lab', indikator: 'Menyebutkan aturan keselamatan lab', level: 'L1', bentuk: 'PG' },
-            { bab: 'Bab 2', materi: 'Siklus IPO', indikator: 'Mengidentifikasi perangkat Input Device', level: 'L2', bentuk: 'PG' },
-            { bab: 'Bab 3', materi: 'Sistem Operasi', indikator: 'Menjelaskan fungsi dasar mouse', level: 'L1', bentuk: 'PG' },
-            { bab: 'Bab 4', materi: 'Berkas Digital', indikator: 'Memahami fungsi penyimpanan file', level: 'L2', bentuk: 'PG' },
-            { bab: 'Bab 5', materi: 'Algoritma', indikator: 'Menyusun langkah logis runtut', level: 'L3', bentuk: 'PG' },
-            { bab: 'Bab 6', materi: 'Microsoft Paint', indikator: 'Menjelaskan fungsi alat ember tumpah Paint', level: 'L1', bentuk: 'PG' }
+        // DATA KISI-KISI LENGKAP 40 NOMOR
+        const kisiKisiData = [
+            { no: 1, elemen: 'Berpikir Komputasional & Praktik Lintas Bidang', materi: 'Pemanfaatan Komputer dan Rasa Syukur', indikator: 'Disajikan pernyataan tentang pemanfaatan komputer untuk ilmu agama, murid dapat menentukan wujud rasa syukur atas nikmat akal dan ilmu.', level: 'L2', bentuk: 'PG' },
+            { no: 2, elemen: 'Praktik Lintas Bidang', materi: 'Peran Komputer di Bidang Sosial & Keuangan', indikator: 'Disajikan ilustrasi kegiatan menghitung zakat mal dan sedekah menggunakan komputer, murid dapat menentukan bidang bantuan komputer tersebut.', level: 'L2', bentuk: 'PG' },
+            { no: 3, elemen: 'Praktik Lintas Bidang', materi: 'Peran Komputer di Bidang Perbankan', indikator: 'Disajikan ilustrasi penggunaan mesin ATM untuk mengambil uang sedekah anak yatim, murid dapat menentukan bidang sistem komputer tersebut.', level: 'L2', bentuk: 'PG' },
+            { no: 4, elemen: 'Sistem Komputer & Perangkat Keras', materi: 'Fungsi Tombol Keyboard (Capslock)', indikator: 'Disajikan kasus mengetik kalimat "ALLAHU AKBAR" dengan huruf kapital, murid dapat menentukan tombol keyboard yang harus ditekan.', level: 'L1', bentuk: 'PG' },
+            { no: 5, elemen: 'Sistem Komputer & Perangkat Keras', materi: 'Fungsi Tombol Keyboard (Spacebar)', indikator: 'Disajikan kasus mengetik hadis tentang kebersihan yang menempel antar kata, murid dapat menentukan tombol untuk memberi jarak/spasi.', level: 'L2', bentuk: 'PG' },
+            { no: 6, elemen: 'Berpikir Komputasional & Kreativitas TIK', materi: 'Pemanfaatan Aplikasi Paint', indikator: 'Disajikan ilustrasi merancang karya gambar keindahan alam ciptaan Allah di Paint, murid dapat menentukan peran komputer.', level: 'L2', bentuk: 'PG' },
+            { no: 7, elemen: 'Perangkat Keras (Hardware)', materi: 'Perangkat Keras (Monitor)', indikator: 'Disajikan gambar monitor, murid dapat menentukan fungsi perangkat tersebut sebagai media penampil informasi visual.', level: 'L1', bentuk: 'PG' },
+            { no: 8, elemen: 'Berpikir Komputasional (Siklus IPO)', materi: 'Konsep IPO (Input-Process-Output)', indikator: 'Disajikan ilustrasi pembuatan teh manis, murid dapat menentukan komponen gula dan air yang dimasukkan sebagai langkah input.', level: 'L2', bentuk: 'PG' },
+            { no: 9, elemen: 'Sistem Komputer', materi: 'Prosedur Menyalakan Komputer', indikator: 'Disajikan tabel aktivitas menyalakan komputer, murid dapat menentukan urutan langkah yang paling tepat dan aman.', level: 'L2', bentuk: 'PG' },
+            { no: 10, elemen: 'Sistem Komputer & Perangkat Keras', materi: 'Fungsi Tombol Keyboard (Backspace)', indikator: 'Disajikan tampilan layar teks "T S B I H K" dan posisi kursor, murid dapat menentukan tombol untuk menghapus huruf "K" di sebelah kiri.', level: 'L2', bentuk: 'PG' },
+            { no: 11, elemen: 'Sistem Komputer (Manajemen File)', materi: 'Manajemen File (Error Rename)', indikator: 'Disajikan kasus komputer menolak perubahan nama file tugas sekolah, murid dapat menentukan penyebab file tersebut eror.', level: 'L2', bentuk: 'PG' },
+            { no: 12, elemen: 'Sistem Komputer (Manajemen File)', materi: 'Perintah Manajemen File', indikator: 'Disajikan kasus memperbanyak gambar masjid tanpa menggambar ulang, murid dapat memilih menu perintah yang tepat.', level: 'L2', bentuk: 'PG' },
+            { no: 13, elemen: 'Berpikir Komputasional (Algoritma)', materi: 'Algoritma Pembuatan Jus', indikator: 'Disajikan langkah-langkah membuat jus buah, murid dapat menentukan urutan algoritma yang runtut dan logis.', level: 'L2', bentuk: 'PG' },
+            { no: 14, elemen: 'Perangkat Keras (Hardware)', materi: 'Klasifikasi Perangkat Keras', indikator: 'Disajikan gambar keyboard, murid dapat menentukan penggolongan perangkat tersebut sebagai input device.', level: 'L1', bentuk: 'PG' },
+            { no: 15, elemen: 'Sistem Komputer (Manajemen File)', materi: 'Manajemen File (New Folder)', indikator: 'Disajikan kasus Aisyah merapikan tugas menggambar agar tidak tercampur, murid dapat menentukan menu untuk membuat wadah baru.', level: 'L2', bentuk: 'PG' },
+            { no: 16, elemen: 'Sistem Komputer', materi: 'Dampak Mati Lampu pada Komputer', indikator: 'Disajikan kasus lampu listrik padam saat mengetik cerita nabi, murid dapat menentukan akibat pada dokumen yang belum direkam.', level: 'L2', bentuk: 'PG' },
+            { no: 17, elemen: 'Perangkat Lunak (Aplikasi Paint)', materi: 'Tool Microsoft Paint', indikator: 'Disajikan gambar ikon kaleng cat tumpah, murid dapat menentukan fungsi tool tersebut untuk memberikan warna pada bidang tertutup.', level: 'L1', bentuk: 'PG' },
+            { no: 18, elemen: 'Perangkat Keras (Hardware)', materi: 'Perangkat Keras dan Fungsinya', indikator: 'Disajikan gambar keyboard dan mouse, murid diminta menarik garis mencocokkan perangkat keras dengan fungsi yang sesuai.', level: 'L2', bentuk: 'Menjodohkan' },
+            { no: 19, elemen: 'Perangkat Lunak (Aplikasi Paint)', materi: 'Tool Microsoft Paint', indikator: 'Disajikan gambar tool Paint (penghapus, pensil, dll), murid diminta menarik garis mencocokkan tool dengan fungsinya.', level: 'L2', bentuk: 'Menjodohkan' },
+            { no: 20, elemen: 'Berpikir Komputasional (Siklus IPO)', materi: 'Siklus IPO (Input-Process-Output)', indikator: 'Disajikan kotak komponen IPO dan contohnya pada pembuatan jus, murid diminta menarik garis mencocokkan dengan tepat.', level: 'L2', bentuk: 'Menjodohkan' },
+            { no: 21, elemen: 'Sistem Komputer', materi: 'Prosedur Mematikan Komputer', indikator: 'Disajikan beberapa pernyataan, murid diminta memilih dua (2) langkah yang benar saat hendak mematikan komputer setelah belajar.', level: 'L2', bentuk: 'PG Kompleks' },
+            { no: 22, elemen: 'Perangkat Lunak (Software)', materi: 'Perangkat Lunak (Software)', indikator: 'Disajikan beberapa pilihan perangkat komputer, murid diminta memilih dua (2) contoh perangkat lunak yang benar.', level: 'L1', bentuk: 'PG Kompleks' },
+            { no: 23, elemen: 'Sistem Komputer (Manajemen File)', materi: 'Manajemen File dan Folder', indikator: 'Disajikan beberapa pernyataan pengelolaan file, murid diminta memilih dua (2) cara yang benar agar file rapi dan mudah ditemukan.', level: 'L2', bentuk: 'PG Kompleks' },
+            { no: 24, elemen: 'Perangkat Keras (Hardware)', materi: 'Perangkat Masukan (Input Device)', indikator: 'Disajikan pernyataan tentang keyboard dan mouse sebagai alat memasukkan perintah, murid menentukan benar (b) atau salah (s).', level: 'L1', bentuk: 'Benar / Salah' },
+            { no: 25, elemen: 'Sistem Komputer (Manajemen File)', materi: 'Fungsi Folder', indikator: 'Disajikan pernyataan fungsi folder sebagai tempat menyimpan dan merapikan file agar tidak berantakan, murid menentukan benar (b) atau salah (s).', level: 'L1', bentuk: 'Benar / Salah' },
+            { no: 26, elemen: 'Perangkat Keras (Hardware)', materi: 'Definisi Perangkat Keras', indikator: 'Disajikan kalimat rumpang tentang komponen fisik komputer, murid mengisi titik-titik dengan istilah perangkat keras (hardware).', level: 'L1', bentuk: 'Isian Singkat' },
+            { no: 27, elemen: 'Perangkat Keras (Hardware)', materi: 'Fungsi Mouse', indikator: 'Disajikan kalimat rumpang tentang fungsi mouse, murid mengisi titik-titik dengan objek kursor (pointer).', level: 'L1', bentuk: 'Isian Singkat' },
+            { no: 28, elemen: 'Sistem Komputer (Manajemen File)', materi: 'Perintah Menyalin File (Copy)', indikator: 'Disajikan gambar menu klik kanan (Cut, Copy, Rename), murid mengisi perintah untuk menyalin gambar Paint milik Fatimah tanpa menghilangkan aslinya.', level: 'L2', bentuk: 'Isian Singkat' },
+            { no: 29, elemen: 'Perangkat Lunak (Aplikasi Paint)', materi: 'Tool Microsoft Paint (Text)', indikator: 'Disajikan gambar ikon huruf A di Paint, murid mengisi fungsi tool tersebut untuk menulis teks pada lembar kerja gambar.', level: 'L1', bentuk: 'Isian Singkat' },
+            { no: 30, elemen: 'Perangkat Lunak (Aplikasi Paint)', materi: 'Tool Microsoft Paint (Brushes)', indikator: 'Disajikan gambar ikon kuas lukis (Brushes), murid mengisi fungsi tool tersebut untuk keperluan menggambar menggunakan kuas.', level: 'L1', bentuk: 'Isian Singkat' },
+            { no: 31, elemen: 'Perangkat Keras (Hardware)', materi: 'Perangkat Keluaran (Printer)', indikator: 'Disajikan gambar printer, murid mengisi peran perangkat tersebut sebagai perangkat keluaran (output device).', level: 'L1', bentuk: 'Isian Singkat' },
+            { no: 32, elemen: 'Sistem Komputer (Manajemen File)', materi: 'Perintah Pemindahan File (Paste)', indikator: 'Disajikan kasus Umar memindahkan file dengan perintah Cut, murid mengisi perintah klik kanan terakhir agar file benar-benar berpindah (Paste).', level: 'L2', bentuk: 'Isian Singkat' },
+            { no: 33, elemen: 'Berpikir Komputasional (Siklus IPO)', materi: 'Siklus Kerja Komputer (IPO)', indikator: 'Disajikan alur kerja keyboard -> CPU -> layar monitor, murid mengisi istilah siklus kerja sistematis tersebut dengan siklus IPO.', level: 'L2', bentuk: 'Isian Singkat' },
+            { no: 34, elemen: 'Sistem Komputer', materi: 'Perintah Menyimpan File (Save)', indikator: 'Disajikan kasus Aisyah ingin mengamankan ketikannya yang baru pada file yang sama agar tidak terhapus, murid mengisi perintah Save.', level: 'L2', bentuk: 'Isian Singkat' },
+            { no: 35, elemen: 'Berpikir Komputasional', materi: 'Konsep Berpikir Komputasional', indikator: 'Disajikan kalimat rumpang tentang urutan langkah teratur dan logis, murid mengisi dengan konsep algoritma.', level: 'L2', bentuk: 'Isian Singkat' },
+            { no: 36, elemen: 'Sistem Komputer', materi: 'Prosedur Mematikan Komputer', indikator: 'Disajikan perintah uraian, murid diminta menjelaskan urutan langkah-langkah mematikan komputer (shutdown) yang aman sesuai prosedur.', level: 'L2', bentuk: 'Uraian' },
+            { no: 37, elemen: 'Praktik Lintas Bidang', materi: 'Pemanfaatan Komputer', indikator: 'Disajikan perintah uraian, murid diminta menyebutkan 3 contoh kegunaan komputer dalam kehidupan sehari-hari (misal: mengetik, menghitung, menggambar).', level: 'L1', bentuk: 'Uraian' },
+            { no: 38, elemen: 'Berpikir Komputasional (Siklus IPO)', materi: 'Analisis Tabel Siklus IPO', indikator: 'Disajikan tabel rumpang siklus IPO pada kegiatan membuat telur dadar, murid diminta melengkapi uraian kegiatan Input, Process, dan Output dengan benar.', level: 'L3', bentuk: 'Uraian' },
+            { no: 39, elemen: 'Sistem Komputer (Manajemen File)', materi: 'Manajemen File (Rename)', indikator: 'Disajikan kasus Aisyah lupa cara mengganti nama folder tugas menggambarnya, murid diminta menuliskan langkah praktis rename folder.', level: 'L2', bentuk: 'Uraian' },
+            { no: 40, elemen: 'Berpikir Komputasional & Nilai Islami', materi: 'Berpikir Runtut & Ibadah', indikator: 'Disajikan perintah uraian, murid diminta menuliskan 3 urutan langkah awal yang penting saat hendak mengerjakan tata cara berwudu dengan tertib.', level: 'L2', bentuk: 'Uraian' }
         ];
 
         window.onload = function() {
-            // Sinkronisasi data agar file lampiran dari guru tidak hilang, tapi teks & judul selalu diperbarui
+            // Sinkronisasi data agar file lampiran dari guru tidak hilang
             let savedMateri = JSON.parse(localStorage.getItem('info_materi_data_split'));
             if (!savedMateri) {
                 localStorage.setItem('info_materi_data_split', JSON.stringify(defaultMateriData));
             } else {
-                // Gabungkan file lampiran dari penyimpanan lama ke struktur data baru
                 defaultMateriData.forEach(def => {
                     let found = savedMateri.find(s => s.bab === def.bab);
                     if (found && found.files) {
@@ -502,12 +543,13 @@
 
         function renderKisiKisi() {
             document.getElementById('kisiKisiTableBody').innerHTML = kisiKisiData.map(k => `
-                <tr>
-                    <td class="p-3 border-r-2 border-black font-black text-purple-900">${k.bab}</td>
-                    <td class="p-3 border-r-2 border-black">${k.materi}</td>
-                    <td class="p-3 border-r-2 border-black">${k.indikator}</td>
+                <tr class="hover:bg-purple-50">
+                    <td class="p-3 border-r-2 border-black text-center font-black">${k.no}</td>
+                    <td class="p-3 border-r-2 border-black text-xs">${k.elemen}</td>
+                    <td class="p-3 border-r-2 border-black font-bold text-xs text-purple-900">${k.materi}</td>
+                    <td class="p-3 border-r-2 border-black text-xs text-slate-800">${k.indikator}</td>
                     <td class="p-3 border-r-2 border-black text-center"><span class="bg-purple-100 px-2 py-0.5 rounded border border-black font-black text-xs">${k.level}</span></td>
-                    <td class="p-3 text-center font-black">${k.bentuk}</td>
+                    <td class="p-3 text-center font-black text-xs"><span class="bg-amber-100 px-2 py-0.5 rounded border border-black inline-block text-[10px]">${k.bentuk}</span></td>
                 </tr>
             `).join('');
         }
