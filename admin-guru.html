@@ -25,12 +25,12 @@
     <nav class="bg-indigo-700 border-b-4 border-black px-4 py-3 sticky top-0 z-40 text-white">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <div class="w-12 h-12 bg-amber-400 text-black rounded-xl border-3 border-black flex items-center justify-center text-2xl font-black shadow-solid-sm">
+                <div class="w-12 h-12 bg-amber-400 text-black rounded-xl border-3 border-black flex items-center justify-center text-2xl font-black">
                     <i class="fa-solid fa-user-tie"></i>
                 </div>
                 <div>
                     <h1 class="font-extrabold text-2xl leading-none">PANEL GURU INFORMATIKA</h1>
-                    <span class="text-xs font-black bg-white text-black px-2 py-0.5 rounded border border-black inline-block mt-1">Pengelola Materi, Soal & Rekap Nilai</span>
+                    <span class="text-xs font-black bg-white text-black px-2 py-0.5 rounded border border-black inline-block mt-1">Upload Google Drive & Kelola Kuis</span>
                 </div>
             </div>
         </div>
@@ -38,12 +38,13 @@
 
     <main class="max-w-7xl mx-auto px-4 mt-6 space-y-6">
 
-        <!-- 1. UPLOAD MATERI PDF / PPTX -->
+        <!-- UPLOAD FILE KE GOOGLE DRIVE -->
         <div class="card-solid bg-white text-slate-900 p-6 space-y-4">
             <h3 class="text-xl font-black text-black border-b-3 border-black pb-2 flex items-center gap-2">
-                <i class="fa-solid fa-cloud-arrow-up text-purple-700"></i> Upload File Materi Baru (PDF / PPTX) untuk Siswa
+                <i class="fa-solid fa-cloud-arrow-up text-purple-700"></i> Upload File Materi ke Google Drive (PDF / PPTX)
             </h3>
-            <form onsubmit="handleUploadMateri(event)" class="space-y-3 font-bold text-xs">
+            
+            <form id="uploadDriveForm" onsubmit="uploadFileToDrive(event)" class="space-y-3 font-bold text-xs">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div>
                         <label class="block mb-1 text-slate-800">Pilih Bab Materi:</label>
@@ -65,18 +66,23 @@
                     <label class="block mb-1 text-slate-800">Pilih File dari Komputer (PDF / PPTX):</label>
                     <input type="file" id="uploadFileInput" accept=".pdf,.pptx,.ppt" required class="w-full border-2 border-black p-2 rounded-xl bg-gray-50 text-xs">
                 </div>
-                <button type="submit" class="btn-solid bg-emerald-500 text-white w-full py-3 rounded-xl font-black text-sm">
-                    <i class="fa-solid fa-upload"></i> Unggah Ke Web Siswa
+                
+                <button type="submit" id="btnUploadSubmit" class="btn-solid bg-emerald-500 text-white w-full py-3 rounded-xl font-black text-sm">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> Unggah File Ke Google Drive & Web Siswa
                 </button>
+
+                <div id="uploadProgress" class="hidden text-center text-xs font-black text-purple-800 bg-purple-100 p-3 rounded-xl border-2 border-black">
+                    <i class="fa-solid fa-spinner fa-spin"></i> Sedang mengunggah file ke Google Drive... Mohon tunggu sebentar.
+                </div>
             </form>
         </div>
 
-        <!-- 2. TAMBAH / BUAT SOAL KUIS -->
+        <!-- BUAT SOAL KUIS -->
         <div class="card-solid bg-white text-slate-900 p-6 space-y-4">
             <h3 class="text-xl font-black text-black border-b-3 border-black pb-2 flex items-center gap-2">
                 <i class="fa-solid fa-plus-circle text-amber-500"></i> Buat & Tambah Soal Kuis Baru
             </h3>
-            <form onsubmit="saveCustomQuestion(event)" class="space-y-3 font-bold text-sm">
+            <form id="inputForm" onsubmit="saveCustomQuestion(event)" class="space-y-3 font-bold text-sm">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div>
                         <label class="block mb-1 text-slate-700">Pilih Bab:</label>
@@ -109,7 +115,7 @@
             </form>
         </div>
 
-        <!-- 3. REKAPITULASI NILAI SISWA -->
+        <!-- REKAPITULASI NILAI -->
         <div class="card-solid bg-white text-slate-900 p-6 space-y-4">
             <div class="flex justify-between items-center border-b-3 border-black pb-3">
                 <h3 class="text-xl font-black flex items-center gap-2"><i class="fa-solid fa-table text-emerald-600"></i> Rekapitulasi Nilai & Jawaban Siswa</h3>
@@ -134,34 +140,76 @@
     </main>
 
     <script>
+        // TEMPELKAN URL GOOGLE APPS SCRIPT BERAKHIR /exec DI SINI
+        const GOOGLE_SCRIPT_URL = "MASUKKAN_URL_WEB_APP_ANDA_DISINI";
+
         window.onload = function() { renderGuruTable(); };
 
-        function handleUploadMateri(e) {
+        function uploadFileToDrive(e) {
             e.preventDefault();
+            
             let bab = document.getElementById('uploadBab').value;
             let title = document.getElementById('uploadTitle').value.trim();
             let fileInput = document.getElementById('uploadFileInput');
-            if(!fileInput.files[0]) return alert('Pilih file!');
+            let file = fileInput.files[0];
+
+            if(!file) return alert('Pilih file terlebih dahulu!');
+
+            let btn = document.getElementById('btnUploadSubmit');
+            let progress = document.getElementById('uploadProgress');
+
+            btn.disabled = true;
+            btn.classList.add('opacity-50');
+            progress.classList.remove('hidden');
 
             let reader = new FileReader();
             reader.onload = function(evt) {
-                let materiData = JSON.parse(localStorage.getItem('info_materi_data_split')) || [
-                    { id: 'm1', bab: 'Bab 1', title: 'Peran Komputer & Lab', summary: 'Tata tertib lab', files:[] },
-                    { id: 'm2', bab: 'Bab 2', title: 'Hardware & Siklus IPO', summary: 'IPO', files:[] },
-                    { id: 'm3', bab: 'Bab 3', title: 'Sistem Operasi & Mouse', summary: 'OS', files:[] },
-                    { id: 'm4', bab: 'Bab 4', title: 'Pengelolaan Berkas Digital', summary: 'Folder', files:[] },
-                    { id: 'm5', bab: 'Bab 5', title: 'Algoritma Unplugged', summary: 'Algoritma', files:[] },
-                    { id: 'm6', bab: 'Bab 6', title: 'Microsoft Paint (Menggambar)', summary: 'Paint', files:[] }
-                ];
-                let target = materiData.find(m => m.bab === bab);
-                if(target) {
-                    if(!target.files) target.files = [];
-                    target.files.push({ name: title || fileInput.files[0].name, dataUrl: evt.target.result });
-                    localStorage.setItem('info_materi_data_split', JSON.stringify(materiData));
-                    alert('File berhasil diunggah! Siswa dapat mengunduhnya di Portal Siswa.');
-                }
+                let base64Data = evt.target.result.split(',')[1];
+                
+                let payload = {
+                    action: "uploadFile",
+                    fileName: title || file.name,
+                    fileType: file.type,
+                    fileData: base64Data,
+                    bab: bab
+                };
+
+                fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                })
+                .then(res => res.json())
+                .then(data => {
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-50');
+                    progress.classList.add('hidden');
+
+                    if(data.status === "success") {
+                        let materiData = JSON.parse(localStorage.getItem('info_materi_data_split')) || [];
+                        let target = materiData.find(m => m.bab === bab);
+                        if(target) {
+                            if(!target.files) target.files = [];
+                            target.files.push({
+                                name: data.fileName,
+                                driveUrl: data.viewUrl,
+                                downloadUrl: data.fileUrl
+                            });
+                            localStorage.setItem('info_materi_data_split', JSON.stringify(materiData));
+                            alert('✅ Berhasil! File tersimpan di Google Drive dan langsung dapat diakses siswa di HP/Laptop.');
+                            document.getElementById('uploadDriveForm').reset();
+                        }
+                    } else {
+                        alert('❌ Gagal mengunggah ke Drive: ' + data.message);
+                    }
+                })
+                .catch(err => {
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-50');
+                    progress.classList.add('hidden');
+                    alert('❌ Terjadi kesalahan koneksi atau URL Apps Script belum valid.');
+                });
             };
-            reader.readAsDataURL(fileInput.files[0]);
+            reader.readAsDataURL(file);
         }
 
         function saveCustomQuestion(e) {
@@ -183,7 +231,7 @@
             customQ.push(newQ);
             localStorage.setItem('info_custom_questions', JSON.stringify(customQ));
             alert('Soal baru berhasil ditambahkan ke Kuis Siswa!');
-            document.getElementById('inputForm') && document.getElementById('inputForm').reset();
+            document.getElementById('inputForm').reset();
         }
 
         function renderGuruTable() {
