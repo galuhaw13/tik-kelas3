@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.com/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <script>
         tailwind.config = {
@@ -46,7 +46,6 @@
                 </div>
             </div>
 
-            <!-- PROFIL SISWA -->
             <div class="flex items-center space-x-3">
                 <div id="userProfileDisplay" class="hidden items-center bg-white border-3 border-black rounded-xl px-3 py-1 shadow-solid-sm">
                     <span id="navAvatar" class="text-2xl mr-2">🤖</span>
@@ -76,7 +75,7 @@
         <section id="section-materi" class="space-y-6">
             <div class="bg-bgKuning border-4 border-black p-6 rounded-2xl shadow-solid-lg text-black">
                 <h2 class="text-2xl font-black mb-1">📚 Materi Pelajaran Informatika Kelas 3 SD</h2>
-                <p class="font-bold text-slate-800 text-sm">Klik kartu materi di bawah ini untuk membaca rangkuman lengkap (Bab 1 s.d. Bab 6) melalui dialog box interaktif!</p>
+                <p class="font-bold text-slate-800 text-sm">Klik kartu materi di bawah ini untuk membaca rangkuman lengkap (Bab 1 s.d. Bab 6) melalui dialog box interaktif[cite: 4]!</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="materiGrid"></div>
         </section>
@@ -86,13 +85,13 @@
             <div id="kuisUserPrompt" class="bg-bgOranye text-white border-4 border-black p-6 rounded-2xl shadow-solid-lg flex justify-between items-center">
                 <div>
                     <h3 class="text-xl font-black mb-1">⚠️ Masukkan Namamu Terlebih Dahulu!</h3>
-                    <p class="font-bold text-amber-100 text-sm">Skor dan jawaban akan terekam ke panel guru.</p>
+                    <p class="font-bold text-amber-100 text-sm">Skor dan jawaban otomatis masuk ke leaderboard[cite: 4].</p>
                 </div>
                 <button onclick="openAvatarModal()" class="btn-solid bg-bgKuning text-black px-5 py-2.5 rounded-xl font-black">Isi Identitas</button>
             </div>
 
             <div id="quizHub" class="bg-white border-4 border-black p-6 rounded-2xl shadow-solid-lg space-y-4">
-                <h3 class="text-2xl font-black">🎮 Pilih Paket Kuis Latihan</h3>
+                <h3 class="text-2xl font-black">🎮 Pilih Paket Kuis Latihan (20 Soal per Bab)[cite: 4]</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="quizPackageList"></div>
             </div>
 
@@ -101,12 +100,13 @@
                 <div class="flex justify-between items-center border-b-4 border-black pb-4">
                     <div>
                         <span id="quizBabBadge" class="bg-purple-200 text-purple-950 font-extrabold text-xs px-3 py-1 rounded border-2 border-black">Bab 1</span>
-                        <h2 id="quizTitle" class="text-2xl font-black mt-1">Soal Kuis</h2>
+                        <h2 id="quizTitle" class="text-2xl font-black mt-1">Soal Kuis Latihan</h2>
                     </div>
-                    <div id="quizTimer" class="w-14 h-14 rounded-2xl bg-bgKuning border-3 border-black flex items-center justify-center font-black text-lg"><span id="quizProgressText">1/5</span></div>
+                    <div id="quizTimer" class="w-16 h-14 rounded-2xl bg-bgKuning border-3 border-black flex items-center justify-center font-black text-sm"><span id="quizProgressText">1/20</span></div>
                 </div>
-                <div class="bg-purple-50 border-3 border-black p-6 rounded-xl">
-                    <h3 id="questionText" class="text-lg md:text-xl font-black text-slate-900">Loading...</h3>
+                <div class="bg-purple-50 border-3 border-black p-6 rounded-xl space-y-2">
+                    <p id="stimulusText" class="text-xs md:text-sm font-bold text-indigo-900 bg-purple-100 p-3 rounded-lg border border-purple-300 italic"></p>
+                    <h3 id="questionText" class="text-base md:text-lg font-black text-slate-900">Loading...</h3>
                 </div>
                 <div id="optionsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
                 <div id="feedbackBox" class="hidden p-4 border-3 border-black rounded-xl space-y-2">
@@ -124,21 +124,22 @@
                 <div class="bg-bgKuning border-4 border-black p-6 rounded-2xl text-center space-y-3">
                     <div id="resultAvatar" class="text-6xl animate-bounce">🏆</div>
                     <h2 class="text-3xl font-black">Kuis Selesai, <span id="resultPlayerName">Siswa</span>!</h2>
+                    <p class="font-bold text-sm text-slate-800">Skor dan namamu berhasil dicatat ke dalam Papan Peringkat (Leaderboard)[cite: 4]!</p>
                     <div class="inline-flex items-center gap-6 bg-white border-3 border-black p-4 rounded-xl">
                         <div><div class="text-xs uppercase font-black">Total Poin</div><div id="finalScore" class="text-3xl font-black text-bgOranye">100</div></div>
                         <div class="h-10 w-1 bg-black"></div>
-                        <div><div class="text-xs uppercase font-black">Benar</div><div id="finalCorrectCount" class="text-3xl font-black text-benarHijau">5/5</div></div>
+                        <div><div class="text-xs uppercase font-black">Benar</div><div id="finalCorrectCount" class="text-3xl font-black text-benarHijau">20/20</div></div>
                     </div>
                 </div>
                 <div class="bg-white border-4 border-black p-6 rounded-2xl space-y-4">
-                    <h3 class="text-xl font-black">📊 Rincian Jawaban Per Nomor (Hijau/Merah)</h3>
+                    <h3 class="text-xl font-black">📊 Rincian Jawaban & Pembahasan</h3>
                     <div id="numberDetailCards" class="grid gap-4"></div>
-                    <button onclick="switchTab('kuis')" class="btn-solid bg-bgOranye text-white w-full py-3 rounded-xl">Coba Kuis Lain</button>
+                    <button onclick="switchTab('kuis')" class="btn-solid bg-bgOranye text-white w-full py-3 rounded-xl font-black">Coba Kuis / Bab Lain 🚀</button>
                 </div>
             </div>
         </section>
 
-        <!-- SECTION 3: KISI-KISI (RINGKASAN POIN) -->
+        <!-- SECTION 3: KISI-KISI POIN -->
         <section id="section-kisikisi" class="hidden space-y-6">
             <div class="bg-white border-4 border-black p-6 rounded-2xl shadow-solid-lg space-y-6">
                 <h2 class="text-2xl font-black text-black">📋 Ringkasan Poin Kisi-Kisi (Bab 1 – 6)</h2>
@@ -149,7 +150,10 @@
         <!-- SECTION 4: LEADERBOARD -->
         <section id="section-leaderboard" class="hidden space-y-6">
             <div class="bg-white border-4 border-black p-6 rounded-2xl shadow-solid-lg space-y-6">
-                <h2 class="text-2xl font-black">🏆 Papan Peringkat Siswa</h2>
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-black">🏆 Papan Peringkat Siswa (Leaderboard)[cite: 4]</h2>
+                    <button onclick="renderLeaderboard()" class="btn-solid bg-bgKuning px-3 py-1.5 rounded-xl text-xs font-black"><i class="fa-solid fa-rotate"></i> Muat Ulang</button>
+                </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
@@ -176,14 +180,14 @@
             <div class="grid grid-cols-4 gap-3 text-3xl">
                 <div onclick="selectAvatar('🤖')" class="avatar-card p-3 bg-purple-100 rounded-xl text-center border-2 border-black">🤖</div>
                 <div onclick="selectAvatar('🦖')" class="avatar-card p-3 bg-emerald-100 rounded-xl text-center border-2 border-black">🦖</div>
-                <div onclick="selectAvatar('🚀')" class="avatar-card p-3 bg-blue-100 rounded-xl text-center border-2 border-black">🧑‍🚀</div>
-                <div onclick="selectAvatar('😎')" class="avatar-card p-3 bg-orange-100 rounded-xl text-center border-2 border-black">🐱</div>
+                <div onclick="selectAvatar('🧑‍🚀')" class="avatar-card p-3 bg-blue-100 rounded-xl text-center border-2 border-black">🧑‍🚀</div>
+                <div onclick="selectAvatar('🐱')" class="avatar-card p-3 bg-orange-100 rounded-xl text-center border-2 border-black">🐱</div>
             </div>
             <button onclick="saveUserProfile()" class="btn-solid bg-bgHijau text-white w-full py-3 rounded-xl font-black">Simpan Identitas</button>
         </div>
     </div>
 
-    <!-- MODAL DIALOG BOX BACA MATERI LENGKAP -->
+    <!-- MODAL DIALOG BOX BACA MATERI -->
     <div id="materiDetailModal" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white border-4 border-black p-6 rounded-2xl max-w-3xl w-full max-h-[90vh] flex flex-col space-y-4 shadow-2xl">
             <div class="flex justify-between items-center border-b-3 border-black pb-2">
@@ -192,10 +196,8 @@
             </div>
             <div id="modalSummary" class="font-bold text-sm bg-amber-100 p-3 rounded-xl border-2 border-black"></div>
             
-            <!-- Dialog Box Isi Materi Utama -->
             <div id="modalPdfContent" class="bg-slate-900 text-white p-5 rounded-xl text-sm leading-relaxed overflow-y-auto max-h-[300px] border-2 border-black space-y-3"></div>
             
-            <!-- Lampiran File -->
             <div id="modalAttachments" class="space-y-2"></div>
             
             <div class="flex justify-between items-center pt-2 border-t-2 border-black">
@@ -213,47 +215,45 @@
         const defaultMateriData = [
             { 
                 id: 'm1', bab: 'Bab 1', title: 'Peran Komputer dan Tata Tertib Laboratorium', code: 'LD', icon: '🖥️', 
-                summary: 'Mengenal komputer sebagai alat bantu belajar dan aturan keselamatan di laboratorium.', 
+                summary: 'Mengenal komputer sebagai alat bantu belajar dan aturan keselamatan di laboratorium[cite: 4].', 
                 pdfText: '<b>Komputer sebagai Alat Bantu Belajar yang Hebat:</b><br>Komputer adalah benda canggih ciptaan manusia yang sangat berguna. Kita wajib bersyukur kepada Tuhan Yang Maha Esa atas nikmat akal dan ilmu pengetahuan ini.<br><br>Komputer membantu manusia bekerja lebih cepat dan mudah di berbagai tempat:<br>- <b>Di Sekolah:</b> Membantu guru membuat materi pelajaran dan membantu siswa belajar ilmu baru.<br>- <b>Di Toko / Swalayan:</b> Membantu kasir menghitung total harga belanjaan pembeli dengan cepat.<br>- <b>Di Bank (ATM):</b> Membantu orang dewasa mengambil uang tunai dengan aman.<br>- <b>Di Bandara:</b> Membantu petugas mengatur jadwal terbang pesawat agar tidak bertabrakan.<br><br><b>Tata Tertib di Ruang Lab Komputer:</b><br>1. Sebelum mulai belajar, biasakan membaca doa atau Basmalah agar ilmu yang kita dapatkan menjadi berkah.<br>2. Jaga kebersihan ruangan lab, tidak boleh membawa makanan atau minuman ke dekat komputer supaya mesin tidak rusak terkena tumpahan air.<br>3. Duduk dengan tertib, gunakan komputer dengan hati-hati, dan rapikan kembali kursi serta meja setelah selesai belajar.<br>4. Dilarang berlari-lari atau dorong-dorongan di dalam ruang lab komputer karena berbahaya.', 
                 files: [] 
             },
             { 
                 id: 'm2', bab: 'Bab 2', title: 'Hardware, Software, Input, Process, Output, dan Konsep IPO', code: 'LD+BK', icon: '⌨️', 
-                summary: 'Mengenal perangkat keras, perangkat lunak, serta siklus kerja komputer.', 
+                summary: 'Mengenal perangkat keras, perangkat lunak, serta siklus kerja komputer[cite: 4].', 
                 pdfText: '<b>Mengenal Perangkat Keras (Hardware):</b><br>Hardware adalah komponen fisik komputer yang wujudnya nyata, bisa dilihat dengan mata, dan bisa disentuh dengan tangan. Contohnya: keyboard, mouse, monitor, CPU, dan printer.<br><br><b>Mengenal Perangkat Lunak (Software):</b><br>Software adalah program atau aplikasi yang ada di dalam komputer (tidak bisa disentuh bentuknya, tapi bisa dilihat gambarnya di layar). Contohnya: Sistem operasi Windows, aplikasi Microsoft Paint, dan Word.<br><br><b>Kelompok Perangkat Keras (Hardware) Sesuai Fungsinya:</b><br>- <b>Input Device (Alat Masukan):</b> Alat untuk memasukkan data atau perintah ke dalam komputer. Contoh: Keyboard dan mouse.<br>- <b>Process Device (Alat Pemroses):</b> Otak utama komputer yang mengolah semua data. Berada di dalam kotak CPU (Central Processing Unit).<br>- <b>Output Device (Alat Keluaran):</b> Alat untuk menampilkan atau mencetak hasil kerja komputer. Contoh: Monitor dan printer.<br><br><b>Konsep Siklus Kerja Komputer (IPO - Input, Process, Output):</b><br>1. <b>Input:</b> Memasukkan bahan atau data awal.<br>2. <b>Process:</b> Data tersebut diolah atau dikerjakan oleh komputer.<br>3. <b>Output:</b> Muncul hasil akhir yang bisa kita lihat atau gunakan.<br><i>Contoh dalam kehidupan sehari-hari (Membuat Es Teh Manis):</i><br>- Input: Teh, gula, air hangat, dan es batu.<br>- Process: Mengaduk gula dan teh dengan air hangat lalu mencampur es batu.<br>- Output: Segelas es teh manis segar siap diminum.', 
                 files: [] 
             },
             { 
                 id: 'm3', bab: 'Bab 3', title: 'Menyalakan, Mematikan Komputer, Mouse, Keyboard, dan Desktop', code: 'LD', icon: '🖱️', 
-                summary: 'Prosedur menghidupkan dan mematikan komputer yang aman.', 
+                summary: 'Prosedur menghidupkan dan mematikan komputer yang aman[cite: 4].', 
                 pdfText: '<b>Cara Menyalakan Komputer yang Benar:</b><br>1. Pastikan kabel listrik komputer sudah tercolok dengan aman ke stopkontak.<br>2. Tekan tombol power pada kotak CPU terlebih dahulu.<br>3. Tekan tombol power pada layar monitor.<br>4. Tunggu beberapa saat sampai layar utama komputer menyala.<br><br><b>Cara Mematikan Komputer (Shutdown) yang Aman:</b><br>1. Tutup semua aplikasi atau jendela program yang masih terbuka di layar.<br>2. Arahkan kursor dan klik menu Start di pojok kiri bawah layar.<br>3. Pilih tombol Power, lalu klik pilihan Shut down.<br>4. Tunggu sampai lampu CPU dan layar benar-benar mati total, baru rapikan meja. (Jangan langsung mencabut kabel listrik saat komputer masih menyala!).<br><br><b>Mengenal Bagian Penting Lainnya:</b><br>- <b>Mouse (Tetikus):</b> Alat kecil untuk mengarahkan kursor dan mengeklik sesuatu di layar.<br>- <b>Keyboard (Papan Ketik):</b> Papan berisi tombol huruf dan angka untuk mengetik kalimat.<br>- <b>Desktop:</b> Tampilan gambar latar belakang utama di layar monitor setelah komputer menyala.', 
                 files: [] 
             },
             { 
                 id: 'm4', bab: 'Bab 4', title: 'Folder, Save, Save As, Open, dan Rename File', code: 'BK', icon: '📁', 
-                summary: 'Cara mengatur berkas dan folder digital di komputer.', 
+                summary: 'Cara mengatur berkas dan folder digital di komputer[cite: 4].', 
                 pdfText: '<b>Bedanya File dan Folder:</b><br>- <b>File:</b> Hasil kerja atau dokumen digital yang kita buat (contoh: cerita hasil ketikan atau gambar hasil lukisan).<br>- <b>Folder:</b> Kotak penyimpanan atau wadah digital untuk mengelompokkan berbagai file agar rapi dan tidak berantakan.<br><br><b>Perintah Penting dalam Pengelolaan Berkas:</b><br>- <b>Save:</b> Perintah untuk merekam atau menyimpan hasil pekerjaan baru agar tidak hilang.<br>- <b>Save As:</b> Perintah untuk menyimpan dokumen dengan nama baru atau di tempat yang berbeda.<br>- <b>Open:</b> Perintah untuk membuka kembali dokumen lama yang sudah pernah disimpan.<br>- <b>Rename:</b> Perintah untuk mengganti nama suatu file atau folder agar sesuai dengan isinya.<br><br><b>Aturan Penting:</b><br>Sebuah file tidak bisa diganti namanya (rename) jika berkas tersebut sedang dalam keadaan dibuka atau dipakai oleh program lain. Kita harus menutup aplikasinya terlebih dahulu.', 
                 files: [] 
             },
             { 
                 id: 'm5', bab: 'Bab 5', title: 'Urutan Langkah dan Algoritma Sederhana', code: 'AP', icon: '🧩', 
-                summary: 'Belajar berpikir logis dan terstruktur melalui algoritma.', 
+                summary: 'Belajar berpikir logis dan terstruktur melalui algoritma[cite: 4].', 
                 pdfText: '<b>Apa itu Algoritma?</b><br>Algoritma adalah susunan langkah-langkah atau cara penyelesaian masalah yang disusun secara logis, teratur, runtut, dan tidak boleh dibolak-balik agar hasilnya sempurna.<br><br><b>Contoh Algoritma dalam Keseharian (Mencuci Tangan):</b><br>1. Memasahi kedua tangan dengan air mengalir.<br>2. Memakai sabun dan menggosok telapak serta sela-sela jari tangan.<br>3. Membilas busa sabun dengan air bersih sampai hilang.<br>4. Mengeringkan tangan menggunakan lap atau handuk bersih.<br><br><b>Debugging:</b><br>Perbaikan pada urutan langkah yang keliru agar susunannya kembali benar dan logis.', 
                 files: [] 
             },
             { 
                 id: 'm6', bab: 'Bab 6', title: 'Mengenal Aplikasi Microsoft Paint', code: 'Integrasi', icon: '🎨', 
-                summary: 'Belajar menggambar dan mewarnai secara digital menggunakan Microsoft Paint.', 
+                summary: 'Belajar menggambar dan mewarnai secara digital menggunakan Microsoft Paint[cite: 4].', 
                 pdfText: '<b>Mengenal Microsoft Paint:</b><br>Paint adalah aplikasi komputer yang asyik digunakan untuk menggambar, melukis, dan mewarnai secara digital di layar monitor.<br><br><b>Mengenal Nama dan Fungsi Tool (Alat) di Paint:</b><br>- <b>Pencil (Ikon Pensil):</b> Berfungsi untuk menggambar garis bebas tipis layaknya pensil tulis.<br>- <b>Eraser (Ikon Penghapus):</b> Berfungsi untuk menghapus bagian gambar atau garis yang salah.<br>- <b>Fill with Color (Ikon Kaleng Cat Tumpah):</b> Berfungsi untuk mewarnai suatu bidang gambar tertutup secara instan dengan satu kali klik.<br>- <b>Text (Ikon Huruf A):</b> Berfungsi untuk menyisipkan atau mengetik judul tulisan pada lembar gambar.<br>- <b>Brushes (Ikon Kuas):</b> Berfungsi untuk melukis dengan pilihan bentuk garis kuas yang bermacam-macam.', 
                 files: [] 
             }
         ];
 
-        // Data Ringkasan Kisi-Kisi Poin per Bab
         const kisiKisiDataPoin = [
             {
-                bab: 'Bab 1',
-                title: 'Peran Komputer & Lab',
+                bab: 'Bab 1', title: 'Peran Komputer & Lab',
                 points: [
                     'Pemanfaatan komputer di berbagai bidang (sekolah, kasir, ATM, bandara).',
                     'Wujud rasa syukur atas nikmat akal & ilmu pengetahuan.',
@@ -261,8 +261,7 @@
                 ]
             },
             {
-                bab: 'Bab 2',
-                title: 'Hardware & Siklus IPO',
+                bab: 'Bab 2', title: 'Hardware & Siklus IPO',
                 points: [
                     'Perbedaan Hardware (perangkat keras) dan Software (perangkat lunak).',
                     'Pembagian Hardware: Input (keyboard/mouse), Process (CPU), Output (monitor/printer).',
@@ -270,8 +269,7 @@
                 ]
             },
             {
-                bab: 'Bab 3',
-                title: 'Menyalakan, Mematikan, & Navigasi',
+                bab: 'Bab 3', title: 'Menyalakan, Mematikan, & Navigasi',
                 points: [
                     'Urutan langkah menyalakan dan mematikan (Shutdown) komputer yang aman.',
                     'Fungsi mouse (kursor/klik) dan keyboard (mengetik).',
@@ -279,8 +277,7 @@
                 ]
             },
             {
-                bab: 'Bab 4',
-                title: 'Pengelolaan Berkas Digital',
+                bab: 'Bab 4', title: 'Pengelolaan Berkas Digital',
                 points: [
                     'Perbedaan File (dokumen/gambar) dan Folder (wadah/penyimpan).',
                     'Perintah dasar berkas: Save, Save As, Open, Rename, Copy, Cut, Paste.',
@@ -288,8 +285,7 @@
                 ]
             },
             {
-                bab: 'Bab 5',
-                title: 'Algoritma Sederhana',
+                bab: 'Bab 5', title: 'Algoritma Sederhana',
                 points: [
                     'Pengertian algoritma (urutan langkah logis & teratur).',
                     'Contoh algoritma dalam kegiatan sehari-hari (mencuci tangan, membuat teh manis).',
@@ -297,8 +293,7 @@
                 ]
             },
             {
-                bab: 'Bab 6',
-                title: 'Microsoft Paint',
+                bab: 'Bab 6', title: 'Microsoft Paint',
                 points: [
                     'Mengenal fungsi aplikasi Microsoft Paint untuk menggambar.',
                     'Fungsi ikon Tool: Pencil (pensil), Eraser (penghapus), Fill with Color (ember tumpah), Text (huruf A), dan Brushes (kuas).'
@@ -306,9 +301,139 @@
             }
         ];
 
+        // 120 SOAL LENGKAP (20 SOAL PER BAB: Bab 1 s.d. Bab 6)[cite: 4]
         let defaultQuestions = [
-            { id: 1, bab: 'Bab 1', question: 'Apa akibatnya jika membawa makanan di dekat keyboard lab?', options: ['Cepat rusak/korsleting', 'Komputer cepat', 'Layar terang', 'Mouse responsif'], correct: 0, pembahasan: 'Cairan/makanan dapat merusak komponen.' },
-            { id: 2, bab: 'Bab 6', question: 'Alat ember tumpah (Fill with Color) di Paint berguna untuk apa?', options: ['Menghapus', 'Mewarnai bidang tertutup', 'Membuat garis', 'Menulis'], correct: 1, pembahasan: 'Fill with Color mewarnai area tertutup secara instan.' }
+            // --- BAB 1 (20 Soal) ---
+            { id: 1, bab: 'Bab 1', stimulus: 'Setiap pagi sebelum belajar di laboratorium komputer, Ahmad selalu merapikan tempat duduk dan membaca basmalah.', question: 'Sikap Ahmad saat menggunakan komputer pemberian sekolah tersebut menunjukkan wujud dari ....', options: ['Bentuk pamer kepada teman sekelas', 'Rasa syukur kepada Allah SWT atas nikmat ilmu', 'Cara terbaik untuk melalaikan waktu salat', 'Sikap pemborosan energi listrik di sekolah'], correct: 1, pembahasan: 'Merapikan tempat duduk dan membaca basmalah sebelum belajar menunjukkan bahwa kita bersyukur kepada Allah SWT atas nikmat akal dan kesempatan menuntut ilmu.' },
+            { id: 2, bab: 'Bab 1', stimulus: 'Allah SWT menganugerahkan akal cerdas kepada manusia agar mampu menciptakan teknologi canggih seperti komputer.', question: 'Menggunakan komputer untuk membaca kisah teladan nabi termasuk ke dalam bentuk ....', options: ['Perbuatan yang sia-sia dan membosankan', 'Pemanfaatan ilmu pengetahuan dalam kebaikan', 'Kelalaian besar dalam menjalankan ibadah', 'Sikap kesombongan atas kepandaian diri'], correct: 1, pembahasan: 'Memanfaatkan ilmu dan teknologi untuk mempelajari kisah teladan nabi adalah contoh penggunaan teknologi dalam kebaikan.' },
+            { id: 3, bab: 'Bab 1', stimulus: 'Ibu guru menggunakan komputer di ruang kelas untuk menampilkan video pembelajaran interaktif tentang keindahan alam ciptaan Allah SWT.', question: 'Peran komputer pada kegiatan tersebut membantu manusia di bidang ....', options: ['Pendidikan dan belajar (education)', 'Pertanian ladang sayur organik', 'Perikanan air tawar di waduk', 'Perniagaan barang sandang'], correct: 0, pembahasan: 'Menampilkan video pembelajaran interaktif di kelas membantu proses belajar mengajar di bidang pendidikan (education).' },
+            { id: 4, bab: 'Bab 1', stimulus: 'Ayah Fatimah bekerja sebagai pegawai bank yang setiap hari melayani nasabah menabung secara aman menggunakan komputer.', question: 'Komputer membantu pekerjaan Ayah di bidang ....', options: ['Perbankan dan keuangan', 'Perancangan gedung bertingkat', 'Kesenian tari tradisional', 'Olahraga prestasi lari'], correct: 0, pembahasan: 'Melayani nasabah yang menabung atau mengambil uang di bank merupakan penerapan komputer di bidang perbankan dan keuangan.' },
+            { id: 5, bab: 'Bab 1', stimulus: 'Petugas di bandara internasional menggunakan komputer khusus untuk memantau jalur terbang pesawat agar tidak terjadi tabrakan di udara.', question: 'Hal ini menunjukkan bahwa komputer membantu manusia dalam bidang ....', options: ['Transportasi umum', 'Peternakan unggas', 'Perkebunan buah', 'Perikanan laut lepas'], correct: 0, pembahasan: 'Memantau jadwal dan alur penerbangan pesawat di bandara membantu keselamatan dalam bidang transportasi umum.' },
+            { id: 6, bab: 'Bab 1', stimulus: 'Pegawai di toko buku swalayan menghitung total belanjaan pembeli dengan cepat menggunakan komputer kasir di meja pembayaran.', question: 'Kegunaan komputer pada cerita tersebut berada di bidang ....', options: ['Perdagangan dan jual beli', 'Perbaikan kendaraan bermotor', 'Kedokteran gigi anak', 'Perancangan busana moderen'], correct: 0, pembahasan: 'Menghitung harga barang di meja kasir toko swalayan adalah contoh pemanfaatan komputer di bidang perdagangan dan jual beli.' },
+            { id: 7, bab: 'Bab 1', stimulus: 'Dokter di rumah sakit memeriksa rekam medis kesehatan pasien menggunakan sistem komputer rumah sakit.', question: 'Komputer sangat membantu manusia dalam bidang ....', options: ['Kesehatan dan kedokteran', 'Olahraga sepak bola lapangan', 'Seni musik daerah nusantara', 'Perikanan darat kolam'], correct: 0, pembahasan: 'Memeriksa data kesehatan dan rekam medis pasien di rumah sakit adalah fungsi komputer di bidang kesehatan dan kedokteran.' },
+            { id: 8, bab: 'Bab 1', stimulus: 'Sebelum masuk ke ruang laboratorium komputer, siswa kelas 3 berbaris rapi dan membaca Basmalah bersama-sama.', question: 'Tujuannya agar kegiatan belajar praktik TIK bernilai ....', options: ['Hukuman dari guru piket', 'Ibadah dan mendatangkan berkah', 'Permainan biasa tanpa makna', 'Kelelahan fisik semata'], correct: 1, pembahasan: 'Berdoa dan membaca Basmalah sebelum mulai belajar bertujuan agar kegiatan kita diratai keberkahan dan bernilai ibadah.' },
+            { id: 9, bab: 'Bab 1', stimulus: 'Di dalam ruang laboratorium komputer terdapat banyak kabel listrik aktif dan perangkat canggih yang sensitif terhadap air.', question: 'Aturan yang tidak boleh dilakukan oleh siswa di dalam lab adalah ....', options: ['Membawa makanan dan minuman ke meja komputer', 'Merapikan kursi setelah selesai belajar', 'Mendengarkan penjelasan guru dengan tertib', 'Membersihkan meja dari debu kain'], correct: 0, pembahasan: 'Makanan dan cairan yang tumpah dapat merusak komponen elektronik dan menyebabkan korsleting, sehingga dilarang membawa makanan/minuman ke meja komputer.' },
+            { id: 10, bab: 'Bab 1', stimulus: 'Salman dan teman-temannya sedang praktik komputer di lab sekolah dengan tertib dan saling menghargai.', question: 'Sikap terpuji yang harus ditunjukkan selama berada di ruang lab adalah ....', options: ['Berlari-lari kecil dan saling dorong kursi', 'Menjaga ketertiban dan merapikan perangkat', 'Berebut menggunakan satu unit komputer', 'Mencoret-coret meja kayu laboratorium'], correct: 1, pembahasan: 'Menjaga ketertiban dan merapikan perangkat adalah perilaku terpuji saat praktikum di laboratorium komputer.' },
+            { id: 11, bab: 'Bab 1', stimulus: 'Komputer merupakan benda canggih ciptaan manusia berkat izin Tuhan. Sebagai anak yang cerdas, kita harus memakai komputer untuk hal yang ....', question: 'Hal apa yang harus dilakukan?', options: ['Mengundang kemarahan orang tua', 'Bermanfaat dan mendatangkan kebaikan', 'Merusak fasilitas belajar sekolah', 'Melanggar aturan norma agama'], correct: 1, pembahasan: 'Komputer harus dimanfaatkan untuk hal-hal yang baik dan bermanfaat bagi diri sendiri maupun orang lain.' },
+            { id: 12, bab: 'Bab 1', stimulus: 'Saat praktikum TIK selesai, seluruh lampu dan perangkat komputer di lab harus dimatikan dengan tertib sesuai instruksi guru.', question: 'Hal ini merupakan wujud tanggung jawab dalam ....', options: ['Menjaga fasilitas sekolah dengan baik', 'Menghabiskan waktu luang di kelas', 'Merusak barang elektronik milik umum', 'Melalaikan tugas piket harian'], correct: 0, pembahasan: 'Mematikan komputer dan fasilitas lab sesuai aturan adalah bentuk tanggung jawab kita dalam menjaga barang/fasilitas sekolah.' },
+            { id: 13, bab: 'Bab 1', stimulus: 'Ibu guru selalu mengingatkan agar siswa tidak makan atau minum di dekat perangkat komputer lab.', question: 'Alasan utama dari aturan tersebut adalah agar ....', options: ['Makanan ringan siswa cepat habis', 'Perangkat komputer tidak rusak terkena tumpahan air', 'Siswa menjadi kelaparan di kelas', 'Meja belajar menjadi kotor beremah'], correct: 1, pembahasan: 'Tumpahan air atau remah makanan bisa masuk ke sela-sela perangkat keras dan menyebabkan kerusakan teknis pada komputer.' },
+            { id: 14, bab: 'Bab 1', stimulus: 'Teknologi internet di komputer sekolah sangat membantu mencari bahan pelajaran agama dan ilmu pengetahuan.', question: 'Sebagai pengguna yang bijak, kita sebaiknya menggunakan internet untuk ....', options: ['Mencari bahan belajar ilmu pengetahuan', 'Melihat konten yang tidak baik', 'Bertengkar dengan teman secara daring', 'Merusak data penting milik lab'], correct: 0, pembahasan: 'Internet di sekolah sebaiknya digunakan untuk mencari informasi dan materi pelajaran yang menambah pengetahuan.' },
+            { id: 15, bab: 'Bab 1', stimulus: 'Nabi Muhammad SAW mengajarkan umatnya untuk selalu menjaga kebersihan lingkungan di mana pun berada.', question: 'Membersihkan layar monitor dari debu di ruang lab adalah contoh menjaga ....', options: ['Kebersihan lingkungan belajar', 'Kesehatan mata secara paksa', 'Keindahan taman bunga sekolah', 'Keamanan jaringan internet'], correct: 0, pembahasan: 'Membersihkan meja dan monitor dari debu merupakan bagian dari menerapkan kebiasaan menjaga kebersihan lingkungan belajar.' },
+            { id: 16, bab: 'Bab 1', stimulus: 'Paman menggunakan komputer untuk merancang gambar desain bangunan masjid yang indah dan megah.', question: 'Peran komputer dalam cerita ini adalah membantu pekerjaan sebagai ....', options: ['Arsitek bangunan', 'Pedagang pasar tradisonal', 'Nelayan di lautan', 'Pengemudi bus kota'], correct: 0, pembahasan: 'Orang yang bertugas merancang atau mendesain bentuk gambar bangunan (seperti masjid) dinamakan arsitek.' },
+            { id: 17, bab: 'Bab 1', stimulus: 'Fatimah belajar membuat poster digital bertema ajakan berbuat baik kepada sesama menggunakan komputer.', question: 'Komputer dalam hal ini berfungsi sebagai alat bantu ....', options: ['Berkarya positif (positive creation)', 'Bermain gim sepanjang hari', 'Merusak dokumen penting sekolah', 'Melamun di dalam kelas'], correct: 0, pembahasan: 'Membuat poster ajakan berbuat baik menggunakan komputer merupakan sarana untuk berkarya secara positif (positive creation).' },
+            { id: 18, bab: 'Bab 1', stimulus: 'Komputer dapat memproses data dalam jumlah yang sangat banyak dengan waktu yang sangat cepat.', question: 'Kemampuan ini membuat pekerjaan manusia menjadi lebih ....', options: ['Lambat dan sangat melelahkan', 'Mudah dan efisien (efficient)', 'Rumit dan berantakan total', 'Susah untuk diselesaikan'], correct: 1, pembahasan: 'Kecepatan komputer dalam mengolah ribuan data membuat pekerjaan manusia menjadi lebih cepat, mudah, dan efisien.' },
+            { id: 19, bab: 'Bab 1', stimulus: 'Menggunakan komputer secara berlebihan hingga melupakan waktu salat adalah perbuatan yang tidak disukai agama.', question: 'Sikap kita sebaiknya adalah ....', options: ['Mengatur waktu belajar dan beribadah dengan seimbang', 'Bermain komputer sepanjang hari tanpa henti', 'Meninggalkan sekolah demi bermain gim', 'Mengabaikan nasihat baik orang tua'], correct: 0, pembahasan: 'Seorang muslim yang bijak harus bisa mengatur waktu antara belajar teknologi, bermain, dan menjalankan ibadah wajib tepat waktu.' },
+            { id: 20, bab: 'Bab 1', stimulus: 'Sebelum meninggalkan ruang laboratorium komputer setelah pelajaran selesai, langkah yang paling tepat adalah ....', options: ['Membiarkan komputer tetap menyala terang', 'Merapikan kursi dan memastikan komputer sudah mati (shutdown)', 'Menyembunyikan tetikus milik teman', 'Membuang sampah sembarangan di lantai lab'], correct: 1, pembahasan: 'Meninggalkan lab dalam keadaan rapi dan komputer sudah dimatikan (shutdown) adalah tata tertib akhir praktikum yang benar.' },
+
+            // --- BAB 2 (20 Soal) ---
+            { id: 21, bab: 'Bab 2', stimulus: 'Fatimah meraba bagian fisik komputer yang nyata, seperti kotak CPU dan papan ketik di meja lab.', question: 'Komponen fisik komputer yang wujudnya dapat dilihat dan disentuh dinamakan hardware atau ....', options: ['Perangkat lunak aplikasi', 'Perangkat keras komputer', 'Sistem jaringan internet', 'Data dokumen digital'], correct: 1, pembahasan: 'Hardware (perangkat keras) adalah komponen fisik komputer yang nyata dan bisa dipegang langsung, contohnya keyboard.' },
+            { id: 22, bab: 'Bab 2', stimulus: 'Di dalam layar monitor komputer terlihat aplikasi Microsoft Paint yang dipakai untuk menggambar.', question: 'Program aplikasi di dalam komputer yang tidak bisa dipegang fisiknya disebut software atau ....', options: ['Perangkat keras utama', 'Perangkat lunak komputer', 'Alat masukan data', 'Komponen pemroses data'], correct: 1, pembahasan: 'Software (perangkat lunak) adalah program/aplikasi di dalam komputer yang tidak bisa dipegang fisiknya, seperti Microsoft Paint.' },
+            { id: 23, bab: 'Bab 2', stimulus: 'Fatimah menekan tombol huruf pada papan ketik untuk menuliskan namanya di lembar kerja.', question: 'Perangkat keyboard ini berfungsi sebagai alat masukan atau disebut sebagai ....', options: ['Input device (alat masukan)', 'Process device (alat pemroses)', 'Output device (alat keluaran)', 'Storage device (tempat simpan)'], correct: 0, pembahasan: 'Keyboard digunakan untuk memasukkan data tulisan ke dalam komputer, sehingga termasuk input device (alat masukan).' },
+            { id: 24, bab: 'Bab 2', stimulus: 'Ahmad menggunakan perangkat tetikus (mouse) untuk menggerakkan kursor panah di layar monitor.', question: 'Berdasarkan fungsinya, mouse termasuk ke dalam kelompok ....', options: ['Output device', 'Input device', 'Process device', 'Memory device'], correct: 1, pembahasan: 'Mouse digunakan untuk memberi perintah gerakan kursor ke dalam komputer, sehingga tergolong input device.' },
+            { id: 25, bab: 'Bab 2', stimulus: 'Kotak besi besar di bawah meja komputer berisi komponen penting yang bertindak sebagai otak pengolah data.', question: 'Bagian pusat pemroses ini dinamakan CPU atau ....', options: ['Input device', 'Output device', 'Process device (alat pemroses)', 'Storage device'], correct: 2, pembahasan: 'CPU (Central Processing Unit) bertindak sebagai otak komputer yang memproses data, sehingga dinamakan process device.' },
+            { id: 26, bab: 'Bab 2', stimulus: 'Layar monitor menyala terang menampilkan hasil ketikan teks dan gambar berwarna kepada pengguna.', question: 'Perangkat monitor termasuk ke dalam kelompok alat keluaran atau ....', options: ['Input device', 'Process device', 'Output device (alat keluaran)', 'Control device'], correct: 2, pembahasan: 'Monitor menampilkan hasil pengolahan data berupa visual di layar, sehingga dinamakan output device (alat keluaran).' },
+            { id: 27, bab: 'Bab 2', stimulus: 'Mesin printer di sudut meja mencetak dokumen tugas sekolah ke atas selembar kertas putih.', question: 'Perangkat printer ini berfungsi sebagai ....', options: ['Input device', 'Output device (alat keluaran)', 'Process device', 'Storage device'], correct: 1, pembahasan: 'Printer mencetak hasil data digital menjadi bentuk kertas (fisik), sehingga berfungsi sebagai output device.' },
+            { id: 28, bab: 'Bab 2', stimulus: 'In daily life, the computer process follows the Input-Process-Output (IPO) cycle. Ketika ibu membuat teh manis, air hangat dan gula yang dimasukkan ke dalam gelas disebut sebagai tahap ....', question: 'Tahap apakah air hangat dan gula tersebut?', options: ['Process', 'Output', 'Input (bahan masukan)', 'Storage'], correct: 2, pembahasan: 'Bahan awal seperti teh, gula, dan air yang dimasukkan ke dalam gelas merupakan tahap input (masukan).' },
+            { id: 29, bab: 'Bab 2', stimulus: 'Proses mengaduk gula dan teh di dalam air hangat hingga larut merata di dalam gelas.', question: 'Dalam siklus kerja IPO, kegiatan mengaduk tersebut dinamakan tahap ....', options: ['Input', 'Process (pengolahan data)', 'Output', 'Storage'], correct: 1, pembahasan: 'Proses mengaduk bahan hingga tercampur rata merupakan tahapan pengolahan atau process.' },
+            { id: 30, bab: 'Bab 2', stimulus: 'Segelas teh manis hangat yang sudah siap untuk disajikan dan diminum oleh ayah di meja makan.', question: 'Dalam siklus IPO, teh manis siap minum merupakan wujud dari tahap ....', options: ['Input', 'Process', 'Output (hasil akhir)', 'Hardware'], correct: 2, pembahasan: 'Teh manis yang sudah jadi dan siap diminum merupakan produk atau hasil akhir (output).' },
+            { id: 31, bab: 'Bab 2', stimulus: 'Salman menekan tombol angka pada keyboard saat mengerjakan soal latihan matematika di komputer.', question: 'Perintah menekan tombol tersebut merupakan bagian dari tahap ....', options: ['Process', 'Input (masukan data)', 'Output', 'Storage'], correct: 1, pembahasan: 'Menekan tombol angka pada keyboard adalah tindakan memasukkan data (input) ke dalam sistem.' },
+            { id: 32, bab: 'Bab 2', stimulus: 'Komputer mengolah data angka yang dimasukkan Salman di dalam kotak CPU utama.', question: 'Kegiatan pengolahan data tersebut dilakukan pada tahap ....', options: ['Input', 'Process (pemrosesan data)', 'Output', 'Hardware'], correct: 1, pembahasan: 'Proses menghitung atau mengolah angka yang dilakukan di dalam CPU termasuk ke dalam tahap process.' },
+            { id: 33, bab: 'Bab 2', stimulus: 'Hasil perhitungan matematika komputer muncul dengan cepat di layar monitor.', question: 'Kemunculan hasil akhir di layar tersebut merupakan tahap ....', options: ['Input', 'Process', 'Output (keluaran data)', 'Software'], correct: 2, pembahasan: 'Hasil hitungan yang sudah selesai lalu tampil di layar monitor dinamakan tahap output.' },
+            { id: 34, bab: 'Bab 2', stimulus: 'Guru menunjukkan contoh perangkat keras komputer yang berfungsi khusus untuk mengolah seluruh instruksi data.', question: 'Manakah di bawah ini yang merupakan contoh perangkat keras pemroses?', options: ['CPU (Central Processing Unit)', 'Printer warna merek Epson', 'Keyboard komputer hitam', 'Mouse optik tangan'], correct: 0, pembahasan: 'CPU (Central Processing Unit) adalah satu-satunya perangkat keras pada pilihan tersebut yang bertugas memproses data.' },
+            { id: 35, bab: 'Bab 2', stimulus: 'Siswa diminta mencari program komputer yang dapat dipakai untuk melukis dan menggambar digital.', question: 'Manakah di bawah ini yang termasuk contoh software pengolah gambar?', options: ['Papan ketik komputer', 'Microsoft Paint', 'Kabel data USB', 'Layar monitor besar'], correct: 1, pembahasan: 'Microsoft Paint adalah program atau software aplikasi yang khusus digunakan untuk melukis dan menggambar.' },
+            { id: 36, bab: 'Bab 2', stimulus: 'Speaker komputer mengeluarkan suara murotal Al-Qur`an dengan lantang saat diputar oleh guru di kelas.', question: 'Perangkat speaker ini berfungsi sebagai alat ....', options: ['Masukan (input device)', 'Keluaran (output device)', 'Pemroses (process device)', 'Penyimpanan (storage device)'], correct: 1, pembahasan: 'Speaker mengeluarkan data berupa suara/audio dari komputer, sehingga termasuk alat keluaran (output device).' },
+            { id: 37, bab: 'Bab 2', stimulus: 'Perangkat keras komputer dapat dipegang dan dirasakan langsung oleh tangan kita.', question: 'Penyebab utama hal tersebut adalah karena bentuk dari hardware adalah ....', options: ['Abstraksi di dalam layar', 'Nyata dan berwujud fisik', 'Berupa suara audio saja', 'Berupa gelombang internet'], correct: 1, pembahasan: 'Ciri khas utama hardware adalah wujudnya yang nyata, memiliki bentuk fisik, dan bisa disentuh oleh tangan.' },
+            { id: 38, bab: 'Bab 2', stimulus: 'Sistem operasi Windows di dalam komputer tidak memiliki bentuk fisik yang bisa dipegang tangan.', question: 'Karena tidak berwujud fisik nyata, program ini disebut sebagai ....', options: ['Hardware', 'Software (perangkat lunak)', 'Input device', 'Output device'], correct: 1, pembahasan: 'Program sistem operasi seperti Windows merupakan kode-kode digital di layar, sehingga dikelompokkan sebagai software.' },
+            { id: 39, bab: 'Bab 2', stimulus: 'Ketika kita menggambar di komputer menggunakan tetikus, tangan kita menggerakkan alat tersebut.', question: 'Dalam hal ini, mouse bertindak sebagai alat ....', options: ['Input untuk memasukkan perintah gerakan', 'Output untuk mencetak hasil gambar', 'Process untuk menghitung warna cat', 'Storage untuk menyimpan file gambar'], correct: 0, pembahasan: 'Mouse mengirimkan instruksi gerakan tangan kita ke layar monitor, sehingga berfungsi sebagai alat input.' },
+            { id: 40, bab: 'Bab 2', stimulus: 'Perangkat keras komputer khusus yang berfungsi untuk memindai lembaran kertas gambar ke bentuk digital adalah ....', options: ['Printer dokumen', 'Scanner (pemindai)', 'Speaker suara', 'Monitor layar'], correct: 1, pembahasan: 'Scanner (pemindai) adalah alat input yang membaca gambar dari kertas lalu memindahkannya menjadi data digital di komputer.' },
+
+            // --- BAB 3 (20 Soal) ---
+            { id: 41, bab: 'Bab 3', stimulus: 'Sebelum menekan tombol power komputer di lab, Ahmad memastikan kabel listrik sudah tercolok aman demi keselamatan.', question: 'Langkah pertama yang wajib dilakukan demi keamanan tersebut adalah ....', options: ['Langsung membuka game kesukaan di layar', 'Memastikan kabel listrik sudah tercolok ke stopkontak', 'Mencabut seluruh kabel yang ada di CPU', 'Membersihkan layar dengan air sabun basah'], correct: 1, pembahasan: 'Sebelum menyalakan komputer, kita harus memastikan kabel daya sudah tercolok aman ke stopkontak agar ada aliran listrik.' },
+            { id: 42, bab: 'Bab 3', stimulus: 'Urutan menyalakan komputer harus ditaati agar komponen di dalam CPU tidak mengalami kerusakan arus listrik.', question: 'Urutan menyalakan komputer yang paling benar adalah ....', options: ['Hidupkan monitor, colok kabel, lalu nyalakan CPU', 'Colok kabel listrik, tekan tombol CPU, lalu nyalakan monitor', 'Tekan tombol CPU, nyalakan monitor, baru colok kabel', 'Langsung buka aplikasi lembar kerja di layar'], correct: 1, pembahasan: 'Urutan yang benar dan aman: Tancapkan kabel ke stopkontak -> tekan tombol power CPU -> tekan tombol power monitor.' },
+            { id: 43, bab: 'Bab 3', stimulus: 'Sesaat setelah komputer selesai dinyalakan, layar monitor menampilkan latar belakang bergambar indah beserta ikon aplikasi.', question: 'Tampilan awal utama pada sistem komputer ini dinamakan ....', options: ['Desktop (layar utama)', 'Keyboard', 'Shutdown', 'Hardware'], correct: 0, pembahasan: 'Tampilan awal layar monitor setelah proses menyalakan komputer selesai dinamakan Desktop.' },
+            { id: 44, bab: 'Bab 3', stimulus: 'Alat kecil yang bentuknya menyerupai hewan tikus dihubungkan dengan kabel ke CPU untuk menunjuk menu.', question: 'Alat tersebut dinamakan ....', options: ['Monitor', 'Mouse (tetikus)', 'Printer', 'Speaker'], correct: 1, pembahasan: 'Alat penunjuk berbentuk kecil dengan kabel menyerupai ekor tikus dinamakan mouse (tetikus).' },
+            { id: 45, bab: 'Bab 3', stimulus: 'Fatimah menggerakkan tetikus di atas meja khusus agar tanda panah kecil di layar ikut berpindah tempat.', question: 'Tanda panah kecil yang bergerak di layar monitor dinamakan ....', options: ['Kursor', 'Spasi', 'Desktop', 'Folder'], correct: 0, pembahasan: 'Tanda panah kecil di layar yang bergerak mengikuti arah genggaman tangan pada mouse dinamakan kursor.' },
+            { id: 46, bab: 'Bab 3', stimulus: 'Papan yang memiliki banyak tombol huruf abjad dari A sampai Z serta angka untuk mengetik kalimat.', question: 'Papan tombol tersebut disebut ....', options: ['Mouse', 'Keyboard (papan ketik)', 'Monitor', 'CPU'], correct: 1, pembahasan: 'Papan berisi jajaran tombol huruf, angka, dan simbol untuk mengetik dinamakan keyboard (papan ketik).' },
+            { id: 47, bab: 'Bab 3', stimulus: 'Sebelum jam pelajaran TIK usai, siswa diminta mematikan komputer dengan prosedur yang benar agar data aman.', question: 'Perintah untuk mematikan komputer dinamakan ....', options: ['Restart', 'Shutdown (mematikan sistem)', 'Open', 'Save'], correct: 1, pembahasan: 'Perintah resmi dari sistem operasi komputer untuk mematikan perangkat dengan aman dinamakan Shut down.' },
+            { id: 48, bab: 'Bab 3', stimulus: 'Sebelum mengeklik tombol untuk mematikan komputer, Ahmad menutup semua jendela aplikasi yang masih aktif.', question: 'Langkah pertama saat hendak mematikan komputer adalah ....', options: ['Langsung mencabut kabel dari dinding', 'Menutup seluruh aplikasi atau jendela program yang masih terbuka', 'Menekan tombol lampu layar monitor secara paksa', 'Memukul kotak CPU agar cepat mati'], correct: 1, pembahasan: 'Menutup semua jendela aplikasi yang terbuka adalah langkah awal agar data pekerjaan kita tidak ada yang hilang atau terganggu.' },
+            { id: 49, bab: 'Bab 3', stimulus: 'Setelah menutup semua aplikasi, langkah selanjutnya untuk mematikan komputer adalah mengeklik menu di pojok kiri bawah.', question: 'Menu tersebut bernama ....', options: ['Start', 'Paint', 'Delete', 'Insert'], correct: 0, pembahasan: 'Tombol menu utama Start terletak di pojok kiri bawah layar desktop komputer.' },
+            { id: 50, bab: 'Bab 3', stimulus: 'Di dalam menu Start, terdapat pilihan tombol bergambar khusus untuk mematikan mesin komputer.', question: 'Tombol tersebut bernama ....', options: ['Shut down', 'Copy file', 'New folder', 'Rename'], correct: 0, pembahasan: 'Di dalam menu Start, ikon Power menyediakan pilihan tombol Shut down untuk mematikan mesin secara sistematis.' },
+            { id: 51, bab: 'Bab 3', stimulus: 'Tindakan ceroboh yang dapat merusak komponen mesin komputer saat hendak mematikannya adalah ....', options: ['Mengeklik menu Shut down dengan prosedur yang benar', 'Langsung mencabut kabel listrik utama saat komputer masih menyala', 'Menunggu lampu indikator CPU padam total', 'Menutup aplikasi satu persatu dengan teliti'], correct: 1, pembahasan: 'Mencabut kabel listrik secara langsung saat mesin masih bekerja dapat merusak komponen CPU dan file di dalam harddisk.' },
+            { id: 52, bab: 'Bab 3', stimulus: 'Jari telunjuk tangan kanan Fatimah biasa dipakai untuk mengeklik tombol bagian kiri pada tetikus.', question: 'Bagian tombol tersebut dinamakan ....', options: ['Tombol klik kiri (left click)', 'Ekor kabel penghubung tetikus', 'Bagian bawah alas tetikus', 'Lampu sensor optik tetikus'], correct: 0, pembahasan: 'Tombol bagian kiri pada mouse (left click) paling sering digunakan telunjuk untuk memilih atau mengaktifkan menu.' },
+            { id: 53, bab: 'Bab 3', stimulus: 'Saat mengetik kalimat cerita, Salman memerlukan jarak atau spasi antarkata agar tulisan mudah dibaca.', question: 'Tombol panjang di bagian bawah keyboard yang ditekan adalah ....', options: ['Caps Lock', 'Spacebar (tombol spasi)', 'Delete', 'Backspace'], correct: 1, pembahasan: 'Tombol paling panjang di bagian bawah keyboard adalah Spacebar yang berguna memberi jarak/spasi antarkata.' },
+            { id: 54, bab: 'Bab 3', stimulus: 'Guru meminta siswa menuliskan judul tugas sekolah menggunakan huruf kapital semua pada awal kalimat tertentu.', question: 'Tombol pada keyboard yang berfungsi mengubah ketikan menjadi huruf kapital adalah ....', options: ['Spacebar', 'Caps Lock', 'Enter', 'Shift'], correct: 1, pembahasan: 'Tombol Caps Lock berfungsi mengunci ketikan huruf agar berubah menjadi huruf KAPITAL (besar).' },
+            { id: 55, bab: 'Bab 3', stimulus: 'Salman sedang mengetik teks, lalu ia ingin menghapus huruf yang berada tepat di sebelah kanan garis kursor.', question: 'Tombol pada keyboard yang harus ditekan Salman adalah ....', options: ['Backspace', 'Delete', 'Caps Lock', 'Spacebar'], correct: 1, pembahasan: 'Tombol Delete pada keyboard digunakan untuk menghapus karakter/huruf yang ada di sebelah kanan kursor.' },
+            { id: 56, bab: 'Bab 3', stimulus: 'Ahmad salah mengetik huruf di sebelah kiri garis kursor pada lembar kerja Microsoft Word.', question: 'Tombol keyboard yang harus ditekan Ahmad untuk menghapusnya adalah ....', options: ['Delete', 'Backspace', 'Spacebar', 'Enter'], correct: 1, pembahasan: 'Tombol Backspace pada keyboard digunakan untuk menghapus karakter/huruf yang ada di sebelah kiri kursor.' },
+            { id: 57, bab: 'Bab 3', stimulus: 'Gambar latar belakang pemandangan alam yang tampak cantik di layar monitor sesaat setelah komputer menyala.', question: 'Tampilan latar tersebut dinamakan ....', options: ['Desktop background', 'Hardware printer', 'CPU box', 'Kabel power'], correct: 0, pembahasan: 'Gambar visual latar belakang yang mempercantik layar utama komputer dinamakan Desktop background (wallpaper).' },
+            { id: 58, bab: 'Bab 3', stimulus: 'Fatimah mengeklik tombol bagian kanan pada mouse, lalu muncul kotak menu pilihan cepat di layar.', question: 'Fungsi utama dari tombol klik kanan pada tetikus adalah untuk ....', options: ['Mematikan komputer secara paksa', 'Memunculkan menu pilihan cepat (shortcut menu)', 'Menghapus seluruh file di dalam komputer', 'Mengganti warna layar monitor lab'], correct: 1, pembahasan: 'Klik kanan pada mouse berfungsi untuk mengeluarkan daftar menu perintah cepat (shortcut menu).' },
+            { id: 59, bab: 'Bab 3', stimulus: 'Umar menggerakkan tetikus di atas alas meja secara perlahan ke arah kanan.', question: 'Akibat gerakan tersebut pada tanda panah di layar monitor adalah ....', options: ['Diam saja di tempat semula', 'Ikut bergerak mengikuti arah tangan Umar', 'Langsung hilang dari layar monitor', 'Berubah menjadi gambar huruf abjad'], correct: 1, pembahasan: 'Kursor panah di monitor berfungsi merespons dan mengikuti gerak tetikus yang digeser di atas meja.' },
+            { id: 60, bab: 'Bab 3', stimulus: 'Saat mengetik paragraf cerita, Salman ingin turun ke baris kalimat baru di bawahnya.', question: 'Tombol pada keyboard yang harus ditekan adalah tombol ....', options: ['Enter', 'Spacebar', 'Caps Lock', 'Backspace'], correct: 0, pembahasan: 'Tombol Enter pada keyboard berfungsi untuk mengakhiri baris dan berpindah ke baris baru di bawahnya saat mengetik.' },
+
+            // --- BAB 4 (20 Soal) ---
+            { id: 61, bab: 'Bab 4', stimulus: 'Hasil kerja atau dokumen digital berupa cerita hasil ketikan tersimpan di dalam ruang memori komputer.', question: 'Dokumen hasil kerja digital tersebut dinamakan ....', options: ['Folder', 'File', 'Desktop', 'Hardware'], correct: 1, pembahasan: 'Dokumen atau lembar kerja digital (teks, gambar, atau suara) yang tersimpan di komputer dinamakan File.' },
+            { id: 62, bab: 'Bab 4', stimulus: 'Aisyah membuat wadah penyimpanan digital berbentuk ikon kotak kuning untuk mengelompokkan tugas gambarnya.', question: 'Wadah penyimpanan digital tersebut disebut ....', options: ['File', 'Folder', 'Monitor', 'Keyboard'], correct: 1, pembahasan: 'Wadah atau tempat penyimpanan berbentuk ikon map kuning yang dipakai merapikan file-file dinamakan Folder.' },
+            { id: 63, bab: 'Bab 4', stimulus: 'Fatimah baru saja selesai mengetik cerita karangan pendek di aplikasi komputer sekolah.', question: 'Agar hasil pekerjaannya terekam aman dan tidak hilang, ia harus mengeklik perintah ....', options: ['Open', 'Save (simpan)', 'Delete', 'Rename'], correct: 1, pembahasan: 'Perintah Save berfungsi menyimpan atau merekam hasil pekerjaan baru agar tersimpan di memori komputer.' },
+            { id: 64, bab: 'Bab 4', stimulus: 'Ahmad ingin menyimpan ulang file gambarnya dengan nama baru di dalam folder flashdisk miliknya.', question: 'Perintah menu yang harus dipilih Ahmad adalah ....', options: ['Save As', 'Close', 'Shut down', 'Cut'], correct: 0, pembahasan: 'Perintah Save As digunakan jika kita ingin menyimpan file lama dengan nama baru atau ke tempat/lokasi yang berbeda.' },
+            { id: 65, bab: 'Bab 4', stimulus: 'Salman ingin melanjutkan kembali pekerjaan menggambar pemandangan yang kemarin sempat disimpan di komputer lab.', question: 'Perintah menu yang harus dipilih Salman adalah ....', options: ['Save', 'Open (buka file)', 'Delete', 'End folder'], correct: 1, pembahasan: 'Perintah Open berfungsi memanggil atau membuka kembali berkas/file lama yang pernah kita simpan sebelumnya.' },
+            { id: 66, bab: 'Bab 4', stimulus: 'Aisyah ingin mengubah nama file tugas TIK agar lebih sesuai dengan isi tugas menggambarnya.', question: 'Perintah menu yang digunakan untuk mengubah nama berkas adalah ....', options: ['Rename', 'Copy', 'Print', 'Paste'], correct: 0, pembahasan: 'Perintah Rename digunakan untuk mengganti atau mengubah nama suatu file/folder.' },
+            { id: 67, bab: 'Bab 4', stimulus: 'Ketika Aisyah ingin mengganti nama sebuah file tugas, komputer menolak dan mengeluarkan peringatan error.', question: 'Hal tersebut terjadi karena file tersebut sedang ....', options: ['Tersimpan rapi di dalam folder utama', 'Dibuka atau digunakan oleh aplikasi lain', 'Berukuran sangat kecil memorinya', 'Diberi warna sampul merah'], correct: 1, pembahasan: 'Komputer menolak mengganti nama (rename) file yang sedang aktif dibuka oleh aplikasi lain demi keamanan data.' },
+            { id: 68, bab: 'Bab 4', stimulus: 'Guru berpesan kepada siswa bahwa dalam mengganti nama file, ada aturan penting yang harus dipatuhi.', question: 'Aturan penting tersebut adalah kita harus ....', options: ['Mematikan komputer terlebih dahulu', 'Menutup aplikasi yang sedang membuka file tersebut', 'Mencabut kabel mouse dari CPU komputer', 'Menghapus seluruh isi data komputer'], correct: 1, pembahasan: 'Agar file bisa di-rename, aplikasi yang sedang memakai file tersebut harus ditutup terlebih dahulu.' },
+            { id: 69, bab: 'Bab 4', stimulus: 'Untuk membuat tempat penyimpanan baru yang berbentuk ikon kotak kuning di layar komputer, kita menggunakan perintah ....', options: ['New Folder', 'Delete File', 'Print Document', 'Open Program'], correct: 0, pembahasan: 'Untuk membuat direktori penyimpan baru, kita mengeklik pilihan New Folder.' },
+            { id: 70, bab: 'Bab 4', stimulus: 'Tujuan utama kita membuat folder di dalam direktori komputer adalah untuk ....', options: ['Memenuhi kapasitas harddisk agar cepat rusak', 'Merapikan file-file agar tidak berantakan dan mudah dicari', 'Menghilangkan data penting milik teman sekelas', 'Memperlambat kinerja komputer lab'], correct: 1, pembahasan: 'Manfaat utama dari pembuatan folder adalah mengelompokkan berkas agar rapi, teratur, dan mudah dicari saat dibutuhkan.' },
+            { id: 71, bab: 'Bab 4', stimulus: 'Fitur perintah Save sangat penting digunakan saat siswa sedang mengerjakan tugas ujian praktik komputer.', question: 'Fungsi utama perintah Save adalah untuk ....', options: ['Menghapus file secara permanen', 'Merekam perubahan atau dokumen baru ke dalam memori komputer', 'Membuka lembar kerja kosong baru', 'Mencetak gambar ke selembar kertas'], correct: 1, pembahasan: 'Tombol Save merekam tulisan/gambar dari memori sementara (RAM) ke media penyimpanan permanen (harddisk).' },
+            { id: 72, bab: 'Bab 4', stimulus: 'Perbedaan mendasar antara perintah Save dan Save As pada aplikasi komputer adalah ....', options: ['Save untuk menghapus, Save As untuk mencetak', 'Save menyimpan file lama, Save As bisa membuat file baru dengan nama/tempat berbeda', 'Save hanya untuk gambar, Save As untuk suara', 'Tidak ada perbedaan sama sekali di antara keduanya'], correct: 1, pembahasan: 'Save memperbarui isi file yang sudah ada, sedangkan Save As membuat salinan berkas baru dengan nama/lokasi berbeda.' },
+            { id: 73, bab: 'Bab 4', stimulus: 'Jika kita mengeklik menu Open pada program komputer, sistem akan menampilkan jendela khusus untuk ....', options: ['Memilih file lama yang ingin dibuka kembali', 'Memadamkan aliran listrik komputer lab', 'Membersihkan layar dari serangan virus', 'Mengganti warna latar belakang desktop'], correct: 0, pembahasan: 'Perintah Open akan menampilkan kotak pencarian berkas (dialog box) untuk memilih file mana yang hendak dibuka.' },
+            { id: 74, bab: 'Bab 4', stimulus: 'Nama file tugas sekolah yang baik dan benar sebaiknya dibuat dengan ketentuan ....', options: ['Menggunakan simbol aneh yang membingungkan', 'Sesuai dengan isi dokumen agar mudah dikenali', 'Dibiarkan kosong tanpa nama identitas', 'Menggunakan sandi huruf rahasia'], correct: 1, pembahasan: 'Pemberian nama file sebaiknya jelas dan mencerminkan isinya agar kita tidak bingung saat mencarinya di kemudian hari.' },
+            { id: 75, bab: 'Bab 4', stimulus: 'Ketika kita melakukan perubahan teks pada file tugas, kita harus mengeklik tombol Save agar ....', options: ['Perubahan tersebut ikut tersimpan permanen', 'File langsung terhapus otomatis oleh sistem', 'Komputer mati sendiri secara mendadak', 'Printer otomatis mencetak kertas'], correct: 0, pembahasan: 'Menglik Save secara berkala memastikan perubahan teks/gambar terbaru tidak hilang saat aplikasi ditutup.' },
+            { id: 76, bab: 'Bab 4', stimulus: 'Perintah Rename berasal dari kosakata bahasa Inggris yang memiliki arti harfiah ....', options: ['Menyimpan dokumen kerja', 'Mengubah nama berkas', 'Menghapus berkas tugas', 'Membuka aplikasi program'], correct: 1, pembahasan: 'Secara harfiah, kata Re artinya kembali/ulang dan Name artinya nama, jadi Rename berarti mengubah nama.' },
+            { id: 77, bab: 'Bab 4', stimulus: 'Ikon standar untuk perintah Save di kebanyakan program komputer biasanya berupa gambar benda klasik.', question: 'Benda klasik apakah yang dimaksud?', options: ['Kotak disket kecil (floppy disk)', 'Kotak sampah terbuka lab', 'Gunting kertas lipat', 'Ember cat tumpah'], correct: 0, pembahasan: 'Ikon perintah Save secara umum disimbolkan dengan gambar disket (floppy disk).' },
+            { id: 78, bab: 'Bab 4', stimulus: 'Jika kita ingin menyalin file tugas tanpa menghilangkan file aslinya di tempat asal, perintah yang digunakan adalah ....', options: ['Cut dan Paste', 'Copy dan Paste (salin dan tempel)', 'Delete dan Rename', 'Open dan Save'], correct: 1, pembahasan: 'Perintah Copy (salin) dan Paste (tempel) digunakan untuk menggandakan file tanpa menghapus file aslinya.' },
+            { id: 79, bab: 'Bab 4', stimulus: 'Jika kita ingin memindahkan file tugas secara utuh ke tempat baru dan menghilangkan file dari tempat asal, perintah yang digunakan adalah ....', options: ['Copy', 'Cut (potong dan pindah)', 'Save As', 'Open'], correct: 1, pembahasan: 'Perintah Cut (potong) dan Paste (tempel) digunakan untuk memindahkan file secara utuh ke tempat baru.' },
+            { id: 80, bab: 'Bab 4', stimulus: 'Berkas yang sudah terlanjur dihapus dari komputer biasanya masuk sementara ke dalam wadah tempat sampah digital bernama ....', options: ['Recycle Bin', 'Microsoft Paint', 'Control Panel', 'Taskbar'], correct: 0, pembahasan: 'Recycle Bin adalah tempat sampah digital di komputer yang menampung file-file yang baru saja dihapus.' },
+
+            // --- BAB 5 (20 Soal) ---
+            { id: 81, bab: 'Bab 5', stimulus: 'Susunan langkah-langkah penyelesaian masalah yang disusun secara logis, teratur, dan runtut dinamakan ....', question: 'Apakah istilah dari susunan langkah tersebut?', options: ['Algoritma', 'Hardware', 'Desktop', 'Software'], correct: 0, pembahasan: 'Urutan langkah logis dan sistematis untuk menyelesaikan suatu masalah dinamakan Algoritma.' },
+            { id: 82, bab: 'Bab 5', stimulus: 'Dalam kehidupan sehari-hari, segala aktivitas membutuhkan urutan yang benar agar tidak gagal.', question: 'Sifat utama dari sebuah algoritma adalah harus ....', options: ['Acak dan bebas dilakukan kapan saja', 'Runtut dan sistematis (step-by-step)', 'Rumit dan membingungkan pemikiran', 'Berubah-ubah setiap kali dikerjakan'], correct: 1, pembahasan: 'Syarat utama algoritma adalah langkahnya harus jelas, runtut, teratur (step-by-step), dan tidak boleh acak.' },
+            { id: 83, bab: 'Bab 5', stimulus: 'Perhatikan langkah membuat susu hangat: (1) Aduk susu hingga larut, (2) Tuangkan air hangat ke dalam gelas, (3) Masukkan bubuk susu ke dalam gelas.', question: 'Urutan algoritma yang tepat dan runtut adalah ....', options: ['(3) - (2) - (1)', '(1) - (2) - (3)', '(2) - (1) - (3)', '(3) - (1) - (2)'], correct: 0, pembahasan: 'Urutan membuat susu hangat yang logis: Masukkan bubuk susu (3) -> tuangkan air hangat (2) -> aduk hingga larut (1).' },
+            { id: 84, bab: 'Bab 5', stimulus: 'Salman mendapati urutan langkah kerja robot buatannya keliru sehingga robot berputar-putar di tempat.', question: 'Proses memperbaiki urutan langkah atau kode yang keliru agar kembali benar dinamakan ....', options: ['Debugging (perbaikan kesalahan)', 'Printing', 'Shutdown', 'Renaming'], correct: 0, pembahasan: 'Debugging adalah istilah dalam informatika untuk mencari dan membenarkan urutan perintah yang salah (error).' },
+            { id: 85, bab: 'Bab 5', stimulus: 'Perhatikan langkah mencuci tangan: (1) Mengeringkan tangan dengan lap bersih, (2) Membasahi tangan dengan air, (3) Menggosok tangan dengan sabun.', question: 'Urutan algoritma (debugging) yang benar agar logis adalah ....', options: ['(2) - (3) - (1)', '(1) - (2) - (3)', '(3) - (2) - (1)', '(2) - (1) - (3)'], correct: 0, pembahasan: 'Urutan cuci tangan yang tepat: Basahi tangan (2) -> gosok dengan sabun (3) -> keringkan dengan lap (1).' },
+            { id: 86, bab: 'Bab 5', stimulus: 'Berpikir secara algoritmik dalam keseharian melatih diri kita untuk bersikap ....', options: ['Terburu-buru dan ceroboh dalam bertindak', 'Tertib, teratur, dan tidak loncat-loncat', 'Malas berpikir kreatif di kelas', 'Sembarangan dalam mengerjakan tugas'], correct: 1, pembahasan: 'Belajar algoritma melatih pola pikir anak menjadi lebih teratur, tertib, dan sistematis dalam bertindak.' },
+            { id: 87, bab: 'Bab 5', stimulus: 'Perhatikan urutan tata cara berwudu: (1) Membasuh muka, (2) Membaca Basmalah dan mencuci telapak tangan, (3) Membasuh kedua tangan sampai siku.', question: 'Urutan langkah awal wudu yang benar adalah ....', options: ['(1) - (2) - (3)', '(2) - (1) - (3)', '(3) - (2) - (1)', '(2) - (3) - (1)'], correct: 1, pembahasan: 'Urutan wudu: Membaca basmalah & cuci tangan (2) -> membasuh muka (1) -> membasuh tangan sampai siku (3).' },
+            { id: 88, bab: 'Bab 5', stimulus: 'Seorang pembuat program wajib menyusun alur algoritma sebelum mulai mengetik perintah di komputer.', question: 'Tujuan utama penyusunan tersebut adalah agar ....', options: ['Komputer cepat rusak', 'Alur perintah jelas dan tidak ada kesalahan logika', 'Ukuran file program menjadi sangat besar', 'Layar monitor menyala sangat terang'], correct: 1, pembahasan: 'Merancang algoritma membantu programmer agar alur perintah program rapi dan tidak mengalami kesalahan logika.' },
+            { id: 89, bab: 'Bab 5', stimulus: 'Perhatikan langkah menyalakan lampu belajar di meja: (1) Menekan saklar lampu hingga menyala, (2) Mencolokkan kabel lampu ke stopkontak dinding.', question: 'Urutan kerja yang paling logis adalah ....', options: ['(1) kemudian (2)', '(2) kemudian (1)', 'Boleh dikerjakan bebas', 'Bersamaan detik itu juga'], correct: 1, pembahasan: 'Langkah logis: Mencolokkan kabel listrik terlebih dahulu (2), baru kemudian menekan tombol saklar lampu (1).' },
+            { id: 90, bab: 'Bab 5', stimulus: 'Jika kita ingin mengirim surat lewat kantor pos, langkah pertama sesuai algoritma adalah ....', options: ['Memasukkan surat ke dalam amplop dan menempel perangko', 'Menunggu surat dibalas oleh orang lain', 'Merobek kertas surat sebelum ditulis', 'Tidur siang di kamar tidur'], correct: 0, pembahasan: 'Algoritma awal berkirim surat melalui pos adalah menyiapkan surat di dalam amplop bermeterai/berperangko.' },
+            { id: 91, bab: 'Bab 5', stimulus: 'Ilmu tentang algoritma ternyata diambil dari nama seorang ilmuwan muslim ahli matematika terkenal dunia.', question: 'Nama ilmuwan muslim tersebut adalah ....', options: ['Al-Khwarizmi', 'Ibnu Sina', 'Al-Biruni', 'Jabir bin Hayyan'], correct: 0, pembahasan: 'Istilah kata Algoritma diambil dari nama ilmuwan penemu aljabar asal Persia bernama Muhammad ibn Musa al-Khwarizmi.' },
+            { id: 92, bab: 'Bab 5', stimulus: 'Dalam menyusun buku resep makanan, daftar bahan dan cara memasak disusun secara berurutan.', question: 'Tujuan penyusunan berurutan agar ....', options: ['Masakan gagal dibuat orang lain', 'Orang lain bisa memasak dengan hasil lezat dan benar', 'Waktu memasak menjadi 24 jam penuh', 'Dapur rumah menjadi kotor'], correct: 1, pembahasan: 'Resep masakan dibuat runtut dari bahan hingga langkah-langkah agar pembaca bisa menghasilkan masakan yang lezat dan benar.' },
+            { id: 93, bab: 'Bab 5', stimulus: 'Perhatikan langkah memakai sepatu: (1) Mengikat tali sepatu dengan rapi, (2) Memasukkan kaki ke dalam sepatu, (3) Memakai kaos kaki terlebih dahulu.', question: 'Urutan algoritma memakai sepatu yang benar adalah ....', options: ['(3) - (2) - (1)', '(1) - (2) - (3)', '(2) - (1) - (3)', '(3) - (1) - (2)'], correct: 0, pembahasan: 'Urutan memakai sepatu: Memakai kaos kaki (3) -> memasukkan kaki ke sepatu (2) -> mengikat tali sepatu (1).' },
+            { id: 94, bab: 'Bab 5', stimulus: 'Jika dalam sebuah langkah algoritma terjadi kesalahan susunan, maka tujuan akhir dari masalah tersebut akan ....', options: ['Tercapai dengan sangat sempurna', 'Gagal atau menghasilkan kesalahan kerja', 'Menjadi lebih cepat selesai dikerjakan', 'Mendatangkan hadiah kejutan'], correct: 1, pembahasan: 'Kesalahan susunan langkah (error) dalam algoritma akan menyebabkan hasil akhir menjadi salah atau gagal.' },
+            { id: 95, bab: 'Bab 5', stimulus: 'Berpikir runtut dan terstruktur dalam menyelesaikan masalah sehari-hari merupakan wujud penerapan ilmu ....', options: ['Berpikir Komputasional (Computational Thinking)', 'Seni Lukis Tradisional Nusantara', 'Olahraga Senam Lantai Sekolah', 'Musik Akustik Modern'], correct: 0, pembahasan: 'Berpikir secara terstruktur dan runtut dalam menyelesaikan masalah dinamakan Berpikir Komputasional (Computational Thinking).' },
+            { id: 96, bab: 'Bab 5', stimulus: 'Perhatikan langkah menyiram tanaman di kebun sekolah: (1) Membawa selang air ke pot tanaman, (2) Membuka keran air secukupnya, (3) Menyiram air ke akar tanaman.', question: 'Urutan algoritma menyiram tanaman yang tepat adalah ....', options: ['(1) - (2) - (3)', '(3) - (2) - (1)', '(2) - (1) - (3)', '(1) - (3) - (2)'], correct: 0, pembahasan: 'Urutan menyiram tanaman: Bawa selang ke pot (1) -> buka keran air (2) -> siramkan air ke akar (3).' },
+            { id: 97, bab: 'Bab 5', stimulus: 'Menyeberang jalan raya memiliki algoritma keselamatan demi menghindari bahaya kecelakaan lalu lintas.', question: 'Langkah pertama yang benar adalah ....', options: ['Langsung berlari kencang tanpa melihat kanan-kiri', 'Menengok ke kanan, ke kiri, dan ke kanan lagi memastikan aman', 'Menutup mata rapat-rapat di tengah jalan raya', 'Tidur di trotoar jalan raya'], correct: 1, pembahasan: 'Algoritma menyeberang jalan aman: Menengok ke kanan, kiri, dan kanan lagi memastikan tidak ada kendaraan melintas.' },
+            { id: 98, bab: 'Bab 5', stimulus: 'Proses debugging dalam pemrograman komputer memiliki kesamaan dengan kegiatan kita saat ....', options: ['Merapikan mainan yang berserakan di lantai kamar', 'Mencari letak kesalahan hitung pada soal matematika lalu memperbaikinya', 'Membeli pakaian baru di toko swalayan', 'Menikmati makanan enak bersama keluarga'], correct: 1, pembahasan: 'Debugging mirip seperti memeriksa kembali lembar jawaban matematika untuk menemukan hitungan yang salah lalu dibetulkan.' },
+            { id: 99, bab: 'Bab 5', stimulus: 'Suatu instruksi algoritma komputer harus bersifat pasti dan tidak bermakna ganda.', question: 'Tujuannya agar komputer ....', options: ['Tidak bingung dan mengeksekusi perintah dengan tepat', 'Mendadak ngadat dan rusak total', 'Mematikan aliran listrik sendiri', 'Memutar musik keras di lab'], correct: 0, pembahasan: 'Komputer membutuhkan instruksi yang pasti dan tidak ambigu agar bisa menjalankan perintah tanpa kesalahan (error).' },
+            { id: 100, bab: 'Bab 5', stimulus: 'Perhatikan langkah membersihkan papan tulis kelas: (1) Menghapus tulisan menggunakan penghapus papan tulis, (2) Berdiri di depan papan tulis.', question: 'Urutan algoritma yang logis adalah ....', options: ['(1) lalu (2)', '(2) lalu (1)', 'Dikerjakan bersamaan', 'Bebas tanpa aturan'], correct: 1, pembahasan: 'Langkah logis: Berdiri di depan papan tulis dulu (2), baru kemudian menggerakkan penghapus di papan tulis (1).' },
+
+            // --- BAB 6 (20 Soal) ---
+            { id: 101, bab: 'Bab 6', stimulus: 'Fatimah membuka aplikasi bawaan di komputer yang dikhususkan untuk melukis dan mewarnai secara digital.', question: 'Nama aplikasi tersebut adalah ....', options: ['Microsoft Word', 'Microsoft Paint', 'Kalkulator', 'Pemutar Musik'], correct: 1, pembahasan: 'Microsoft Paint adalah aplikasi gratis bawaan sistem Windows yang khusus digunakan untuk menggambar dan melukis.' },
+            { id: 102, bab: 'Bab 6', stimulus: 'Fatimah ingin membuat garis lurus tipis di lembar kerja gambar aplikasi Paint.', question: 'Tool atau alat pada aplikasi Paint yang harus dipilih Fatimah adalah ....', options: ['Eraser', 'Pencil (pensil)', 'Fill with color', 'Magnifier'], correct: 1, pembahasan: 'Tool Pencil (pensil) digunakan untuk menggambar garis tipis secara bebas di kanvas kerja.' },
+            { id: 103, bab: 'Bab 6', stimulus: 'Ahmad tidak sengaja salah menggoreskan garis di lembar kerja gambar Paint miliknya.', question: 'Alat yang digunakan Ahmad untuk menghapus bagian gambar yang keliru adalah ....', options: ['Pencil', 'Eraser (penghapus)', 'Brush', 'Text tool'], correct: 1, pembahasan: 'Tool Eraser (penghapus) digunakan untuk menghapus coretan atau garis gambar yang keliru.' },
+            { id: 104, bab: 'Bab 6', stimulus: 'Perhatikan ikon aplikasi Microsoft Paint berupa gambar kaleng cat tumpah di menu bar.', question: 'Ikon tersebut dinamakan tool ....', options: ['Fill with color untuk mewarnai bidang tertutup', 'Eraser untuk menghapus seluruh layar', 'Pencil untuk menulis cerita', 'Airbrush untuk mencetak gambar'], correct: 0, pembahasan: 'Ikon kaleng cat tumpah dinamakan Fill with color, berfungsi untuk mewarnai suatu bidang gambar tertutup.' },
+            { id: 105, bab: 'Bab 6', stimulus: 'Ali ingin memberikan judul pada gambar pemandangan gunung yang ia buat di aplikasi Paint.', question: 'Tool yang harus dipilih Ali untuk mengetik teks adalah ....', options: ['Ikon huruf A (Text tool)', 'Ikon kaleng cat tumpah', 'Ikon penghapus karet', 'Ikon kuas lukis'], correct: 0, pembahasan: 'Ikon berbentuk huruf A dinamakan Text tool, digunakan untuk mengetik tulisan/teks di atas gambar.' },
+            { id: 106, bab: 'Bab 6', stimulus: 'Untuk melukis dengan variasi goresan kuas yang artistik dan beragam di Paint, kita dapat menggunakan tool ....', options: ['Brushes (kuas lukis)', 'Pencil tipis', 'Eraser karet', 'Line lurus'], correct: 0, pembahasan: 'Tool Brushes menyediakan bermacam-macam bentuk ujung kuas lukis dengan efek goresan yang artistik.' },
+            { id: 107, bab: 'Bab 6', stimulus: 'Sebelum mewarnai gambar dengan alat Fill with color, syarat utama bidang gambar tersebut adalah ....', options: ['Garis tepinya harus tertutup rapat tanpa bocor', 'Harus diwarnai pakai pensil warna asli', 'Harus dihapus terlebih dahulu dari layar', 'Harus diberi teks kalimat panjang'], correct: 0, pembahasan: 'Jika bidang gambar bocor (tidak tertutup rapat), warna dari kaleng cat (Fill with color) akan bocor mewarnai seluruh kanvas.' },
+            { id: 108, bab: 'Bab 6', stimulus: 'Area putih yang luas di tengah layar aplikasi Paint tempat kita mulai mencoret dan melukis dinamakan ....', options: ['Canvas (kanvas kerja)', 'Desktop background', 'CPU box', 'Taskbar menu'], correct: 0, pembahasan: 'Lembar putih luas di dalam aplikasi Paint tempat kita membuat karya melukis dinamakan kanvas (canvas).' },
+            { id: 109, bab: 'Bab 6', stimulus: 'Salman ingin membuat bentuk kotak persegi yang rapi di Paint tanpa harus menggambar manual pakai pensil.', question: 'Tool bentuk jadi yang bisa dipakai Salman adalah ....', options: ['Shapes (bentuk kotak / rectangle)', 'Eraser', 'Brushes', 'Text'], correct: 0, pembahasan: 'Kelompok menu Shapes menyediakan pilihan bentuk geometris siap pakai, seperti bentuk Rectangle (kotak).' },
+            { id: 110, bab: 'Bab 6', stimulus: 'Jika kita ingin memperbesar tampilan bagian gambar yang detail di Paint agar terlihat lebih jelas, tool yang digunakan adalah ....', options: ['Magnifier (kaca pembesar)', 'Pencil', 'Fill with color', 'Select'], correct: 0, pembahasan: 'Tool Magnifier (kaca pembesar) berfungsi memperbesar atau memperkecil tampilan visual gambar di layar.' },
+            { id: 111, bab: 'Bab 6', stimulus: 'Perintah untuk memotong sebagian gambar yang tidak diinginkan di Paint dinamakan ....', options: ['Crop', 'Save', 'Print', 'Open'], correct: 0, pembahasan: 'Perintah Crop (potong) digunakan untuk memotong dan mengambil area gambar tertentu saja di kanvas.' },
+            { id: 112, bab: 'Bab 6', stimulus: 'Saat menggunakan tool Eraser, ukuran kotak penghapus di layar dapat diperbesar menggunakan kombinasi tombol.', question: 'Kombinasi tombol tersebut di keyboard adalah ....', options: ['Ctrl dan tanda (+) atau (-)', 'Caps Lock dan Enter', 'Spacebar dan Delete', 'Alt dan F4'], correct: 0, pembahasan: 'Menekan tombol Ctrl bersamaan dengan tombol (+) atau (-) di keyboard dapat mengubah ukuran kotak Eraser.' },
+            { id: 113, bab: 'Bab 6', stimulus: 'Berbagai macam pilihan warna yang bisa dipakai untuk melukis di Paint terletak pada bagian ....', options: ['Kotak Palet Warna (Color Palette)', 'Tombol Power CPU', 'Kabel Port USB', 'Disket Penyimpanan'], correct: 0, pembahasan: 'Pilihan warna-warni cat di Paint berkumpul pada kotak Palet Warna (Color Palette).' },
+            { id: 114, bab: 'Bab 6', stimulus: 'Fatimah memilih warna hijau daun dari palet warna, lalu mengeklik kaleng cat pada gambar daun.', question: 'Maka gambar daun tersebut akan berubah warna menjadi ....', options: ['Merah menyala', 'Hijau daun', 'Hitam pekat', 'Putih bersih'], correct: 1, pembahasan: 'Warna yang disemprotkan oleh kaleng cat adalah warna aktif yang sedang terpilih pada palet warna (hijau daun).' },
+            { id: 115, bab: 'Bab 6', stimulus: 'Manakah tool di Microsoft Paint yang berfungsi khusus untuk menggambar garis lengkung (curve)?', options: ['Curve tool', 'Eraser', 'Text tool', 'Magnifier'], correct: 0, pembahasan: 'Curve tool (garis lengkung) adalah alat khusus di Paint untuk membuat garis yang dapat dilengkungkan.' },
+            { id: 116, bab: 'Bab 6', stimulus: 'Ketika kita salah menggambar di Paint dan ingin membatalkan satu langkah terakhir, kita bisa menggunakan perintah ....', options: ['Undo (Ctrl + Z)', 'Delete', 'Shut down', 'Cut'], correct: 0, pembahasan: 'Perintah Undo (atau kombinasi tombol Ctrl + Z) berfungsi untuk membatalkan goresan/tindakan terakhir di Paint.' },
+            { id: 117, bab: 'Bab 6', stimulus: 'Setelah selesai membuat karya gambar pemandangan alam ciptaan Allah SWT di Paint, langkah agar gambar tersimpan aman adalah ....', options: ['Mematikan komputer tanpa disimpan', 'Mengeklik menu Save dan memberi nama file', 'Menutup layar monitor dengan kain', 'Mencabut kabel tetikus dari CPU'], correct: 1, pembahasan: 'Setelah menggambar, kita wajib mengeklik Save agar berkas gambar terekam aman di dalam komputer.' },
+            { id: 118, bab: 'Bab 6', stimulus: 'Ikon berbentuk lingkaran lonjong di dalam menu Shapes pada Paint dinamakan tool ....', options: ['Oval', 'Rectangle', 'Line', 'Polygon'], correct: 0, pembahasan: 'Tool berbentuk lingkaran lonjong di dalam kelompok menu Shapes dinamakan bentuk Oval.' },
+            { id: 119, bab: 'Bab 6', stimulus: 'Pilihlah tool yang paling tepat jika kita ingin menggambar bentuk bintang atau panah di aplikasi Paint:', options: ['Menu Shapes', 'Menu Eraser', 'Menu Text', 'Menu Magnifier'], correct: 0, pembahasan: 'Menu Shapes berisi berbagai macam ikon bentuk siap pakai, termasuk bentuk bintang, panah, dan pola geometris.' },
+            { id: 120, bab: 'Bab 6', stimulus: 'Aplikasi Microsoft Paint sangat disukai siswa karena tampilannya ramah anak dan mudah dipelajari.', question: 'Alasan utama aplikasi ini cocok untuk kelas 3 SD adalah ....', options: ['Karena tampilannya rumit dan susah dipahami', 'Karena fiturnya menyenangkan, mudah melatih kreativitas seni digital', 'Karena khusus untuk menghitung rumus matematika berat', 'Karena tidak bisa menyimpan hasil gambar'], correct: 1, pembahasan: 'Aplikasi Paint memiliki antarmuka yang ramah anak, mudah digunakan, dan sangat bagus untuk mengasah kreativitas seni digital.' }
         ];
 
         window.onload = function() {
@@ -318,9 +443,7 @@
             } else {
                 defaultMateriData.forEach(def => {
                     let found = savedMateri.find(s => s.bab === def.bab);
-                    if (found && found.files) {
-                        def.files = found.files;
-                    }
+                    if (found && found.files) def.files = found.files;
                 });
                 localStorage.setItem('info_materi_data_split', JSON.stringify(defaultMateriData));
             }
@@ -337,6 +460,7 @@
             document.getElementById(`section-${t}`).classList.remove('hidden');
             document.getElementById(`tab-${t}`).classList.add('bg-bgKuning');
             document.getElementById(`tab-${t}`).classList.remove('bg-white');
+            if(t === 'leaderboard') renderLeaderboard();
         }
 
         function loadUser() {
@@ -393,12 +517,16 @@
             let att = document.getElementById('modalAttachments');
             att.innerHTML = (m.files && m.files.length > 0) ? m.files.map(f => `
                 <div class="flex justify-between items-center p-2.5 bg-purple-50 border-2 border-black rounded-xl text-xs font-bold">
-                    <span class="truncate max-w-[200px] md:max-w-[300px]">
-                        <i class="fa-solid fa-file-pdf text-red-600 mr-2"></i> ${f.name}
+                    <span class="truncate max-w-[160px] md:max-w-[300px]">
+                        <i class="fa-solid fa-file-pdf text-red-600 mr-1"></i> ${f.name}
                     </span>
-                    <div class="flex items-center gap-2">
-                        ${f.driveUrl ? `<a href="${f.driveUrl}" target="_blank" class="btn-solid bg-bgKuning px-3 py-1 rounded-lg text-xs"><i class="fa-solid fa-eye"></i> Baca</a>` : ''}
-                        <a href="${f.downloadUrl || f.driveUrl || f.dataUrl}" download="${f.name}" target="_blank" class="btn-solid bg-bgHijau text-white px-3 py-1 rounded-lg text-xs"><i class="fa-solid fa-download"></i> Unduh</a>
+                    <div class="flex items-center gap-1.5">
+                        <a href="${f.driveUrl || f.downloadUrl || f.dataUrl}" target="_blank" rel="noopener noreferrer" class="btn-solid bg-bgKuning px-2.5 py-1 rounded-lg text-xs flex items-center gap-1">
+                            <i class="fa-solid fa-eye"></i> Buka
+                        </a>
+                        <a href="${f.downloadUrl || f.driveUrl || f.dataUrl}" target="_blank" download="${f.name}" class="btn-solid bg-bgHijau text-white px-2.5 py-1 rounded-lg text-xs flex items-center gap-1">
+                            <i class="fa-solid fa-download"></i> Unduh
+                        </a>
                     </div>
                 </div>
             `).join('') : '<span class="text-xs font-bold text-slate-500">Belum ada file lampiran tambahan dari guru.</span>';
@@ -416,8 +544,11 @@
             let babs = ['Bab 1', 'Bab 2', 'Bab 3', 'Bab 4', 'Bab 5', 'Bab 6'];
             document.getElementById('quizPackageList').innerHTML = babs.map(b => `
                 <div class="card-solid bg-purple-50 p-4 flex justify-between items-center">
-                    <div><span class="bg-bgOranye text-white text-xs font-black px-2 py-0.5 rounded border border-black">${b}</span><h4 class="font-black text-base mt-1">Kuis Latihan ${b}</h4></div>
-                    <button onclick="startQuiz('${b}')" class="btn-solid bg-bgHijau text-white px-4 py-2 rounded-xl text-xs">Mulai</button>
+                    <div>
+                        <span class="bg-bgOranye text-white text-xs font-black px-2 py-0.5 rounded border border-black">${b}</span>
+                        <h4 class="font-black text-base mt-1">Kuis Latihan ${b} (20 Soal)</h4>
+                    </div>
+                    <button onclick="startQuiz('${b}')" class="btn-solid bg-bgHijau text-white px-4 py-2 rounded-xl text-xs">Mulai Kuis</button>
                 </div>
             `).join('');
         }
@@ -427,7 +558,7 @@
             let customQ = JSON.parse(localStorage.getItem('info_custom_questions') || '[]');
             let allQ = [...defaultQuestions, ...customQ];
             currentQuizQuestions = allQ.filter(q => q.bab === bab);
-            if(currentQuizQuestions.length === 0) currentQuizQuestions = defaultQuestions;
+            if(currentQuizQuestions.length === 0) currentQuizQuestions = defaultQuestions.filter(q => q.bab === 'Bab 1');
 
             currentQuizIndex = 0; currentAnswers = [];
             document.getElementById('quizHub').classList.add('hidden');
@@ -440,6 +571,7 @@
             let q = currentQuizQuestions[currentQuizIndex];
             document.getElementById('quizBabBadge').innerText = q.bab;
             document.getElementById('quizProgressText').innerText = `${currentQuizIndex+1} / ${currentQuizQuestions.length}`;
+            document.getElementById('stimulusText').innerText = q.stimulus ? `💡 Studi Kasus: "${q.stimulus}"` : '';
             document.getElementById('questionText').innerText = q.question;
             document.getElementById('feedbackBox').classList.add('hidden');
             document.getElementById('nextQuestionBtn').disabled = true;
@@ -449,7 +581,7 @@
             let labels = ['A', 'B', 'C', 'D'];
             document.getElementById('optionsContainer').innerHTML = q.options.map((opt, i) => `
                 <button onclick="selectOpt(${i})" id="opt-${i}" class="opt-btn btn-solid bg-white text-left p-4 rounded-xl font-bold text-sm flex gap-3">
-                    <span class="w-7 h-7 bg-purple-100 border-2 border-black rounded flex items-center justify-center">${labels[i]}</span><span>${opt}</span>
+                    <span class="w-7 h-7 bg-purple-100 border-2 border-black rounded flex items-center justify-center shrink-0">${labels[i]}</span><span>${opt}</span>
                 </button>
             `).join('');
         }
@@ -462,7 +594,7 @@
 
             let box = document.getElementById('feedbackBox');
             box.classList.remove('hidden');
-            box.className = isCorrect ? "p-4 border-3 border-black rounded-xl bg-emerald-100 text-emerald-950" : "p-4 border-3 border-black rounded-xl bg-red-100 text-red-950";
+            box.className = isCorrect ? "p-4 border-3 border-black rounded-xl bg-emerald-100 text-emerald-950 space-y-1" : "p-4 border-3 border-black rounded-xl bg-red-100 text-red-950 space-y-1";
             document.getElementById('feedbackTitle').innerText = isCorrect ? "✅ Benar!" : "❌ Kurang Tepat!";
             document.getElementById('feedbackText').innerText = "Pembahasan: " + q.pembahasan;
 
@@ -472,7 +604,7 @@
                 else btn.classList.add('opacity-45');
             });
 
-            currentAnswers.push({ num: currentQuizIndex+1, question: q.question, isCorrect, chosen: q.options[i] });
+            currentAnswers.push({ num: currentQuizIndex+1, question: q.question, isCorrect, chosen: q.options[i], pembahasan: q.pembahasan });
             document.getElementById('nextQuestionBtn').disabled = false;
             document.getElementById('nextQuestionBtn').classList.remove('opacity-50');
         }
@@ -502,16 +634,25 @@
             loadUser();
 
             document.getElementById('numberDetailCards').innerHTML = currentAnswers.map(a => `
-                <div class="card-solid ${a.isCorrect ? 'bg-benarHijau' : 'bg-salahMerah'} text-white p-4 space-y-2">
-                    <div class="flex justify-between"><span class="font-black bg-black/20 px-2 rounded">No. ${a.num}</span><span>${a.isCorrect ? '✅ BENAR' : '❌ SALAH'}</span></div>
-                    <div class="font-bold text-sm">${a.question}</div>
-                    <div class="bg-white text-slate-900 p-2 rounded text-xs">Jawabanmu: ${a.chosen}</div>
+                <div class="card-solid ${a.isCorrect ? 'bg-emerald-50' : 'bg-red-50'} p-4 space-y-2">
+                    <div class="flex justify-between"><span class="font-black bg-black text-white px-2 rounded text-xs">No. ${a.num}</span><span class="font-black ${a.isCorrect ? 'text-benarHijau' : 'text-salahMerah'}">${a.isCorrect ? '✅ BENAR' : '❌ SALAH'}</span></div>
+                    <div class="font-bold text-sm text-slate-900">${a.question}</div>
+                    <div class="bg-white p-2.5 rounded-lg border border-black text-xs font-bold text-slate-800">Jawabanmu: ${a.chosen}</div>
+                    <div class="bg-amber-100 p-2.5 rounded-lg border border-black text-xs font-bold text-amber-950">💡 Pembahasan: ${a.pembahasan}</div>
                 </div>
             `).join('');
 
+            // Simpan otomatis ke Leaderboard[cite: 4]
             let board = JSON.parse(localStorage.getItem('info_leaderboard') || '[]');
             let rincian = currentAnswers.map(a => `No.${a.num}:${a.isCorrect?'✅':'❌'}`).join(' | ');
-            board.push({ nama: currentUser.name, avatar: currentUser.avatar, paket: currentQuizQuestions[0].bab, skor: score, rincian, waktu: new Date().toLocaleString() });
+            board.push({ 
+                nama: currentUser.name, 
+                avatar: currentUser.avatar, 
+                paket: currentQuizQuestions[0].bab, 
+                skor: score, 
+                rincian, 
+                waktu: new Date().toLocaleString() 
+            });
             board.sort((a,b) => b.skor - a.skor);
             localStorage.setItem('info_leaderboard', JSON.stringify(board));
             renderLeaderboard();
@@ -520,7 +661,7 @@
         function renderLeaderboard() {
             let board = JSON.parse(localStorage.getItem('info_leaderboard') || '[]');
             let tbody = document.getElementById('leaderboardTableBody');
-            if(board.length === 0) { tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center font-bold">Belum ada skor kuis.</td></tr>'; return; }
+            if(board.length === 0) { tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center font-bold">Belum ada skor kuis di leaderboard.</td></tr>'; return; }
             tbody.innerHTML = board.map((r, i) => `
                 <tr class="hover:bg-purple-50">
                     <td class="p-3 border-r-2 border-black text-center font-black">${i+1}</td>
